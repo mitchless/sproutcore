@@ -59,3 +59,18 @@ test("Issue a pushError and check if there is conflicts", function() {
   ok(!res, "There is a conflict, because of the state, this is expected.");
 });
 
+test("A pushRetrieve updating the id of an existing record should update the primary Key cache", function(){
+  var tmpid, recFirst, recSecond, sK, rec;
+  
+  tmpid = "@2345235asddsgfd";
+  recFirst = { firstname: 'me', lastname: 'too', guid: tmpid };
+  recSecond = { firstname: 'me', lastname: 'too', guid: 1 };
+  SC.RunLoop.begin();
+  var sK = store.loadRecord(SC.Record, rec, tmpid);
+  SC.RunLoop.end();
+  SC.RunLoop.begin();
+  store.pushRetrieve(SC.Record,1,recSecond,sK);
+  SC.RunLoop.end();
+  rec = store.find(SC.Record).get('firstObject');
+  equals(rec.get('id'),1);
+});
