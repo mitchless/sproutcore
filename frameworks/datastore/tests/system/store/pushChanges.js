@@ -60,7 +60,7 @@ test("Issue a pushError and check if there is conflicts", function() {
 });
 
 test("A pushRetrieve updating the id of an existing record should update the primary Key cache", function(){
-  var tmpid, recFirst, recSecond, sK, rec;
+  var tmpid, recFirst, recSecond, sK;
   
   tmpid = "@2345235asddsgfd";
   recFirst = { firstname: 'me', lastname: 'too', guid: tmpid };
@@ -71,6 +71,5 @@ test("A pushRetrieve updating the id of an existing record should update the pri
   SC.RunLoop.begin();
   store.pushRetrieve(SC.Record,1,recSecond,sK);
   SC.RunLoop.end();
-  rec = store.find(SC.Record).get('firstObject');
-  equals(rec.get('id'),1);
+  equals(store.idFor(sK),1);
 });
