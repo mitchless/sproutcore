@@ -2049,7 +2049,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
       status = K.READY_CLEAN;
       if(dataHash===undefined) this.writeStatus(storeKey, status) ;
       else this.writeDataHash(storeKey, dataHash, status) ;
-
+      if (id && this.idFor(storeKey) !== id) SC.Store.replaceIdFor(storeKey, id);
       this.dataHashDidChange(storeKey);
       
       return storeKey;
