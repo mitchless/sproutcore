@@ -4113,7 +4113,7 @@ SC.View.LayoutStyleCalculator = SC.Object.extend({
 
     // the toString here is to ensure that it doesn't get px added to it
     this.zIndex  = (layout.zIndex  != null) ? layout.zIndex.toString() : null;
-    this.opacity = (layout.opacity != null) ? layout.zIndex.toString() : null;
+    this.opacity = (layout.opacity != null) ? layout.opacity.toString() : null;
 
     this.backgroundPosition = (layout.backgroundPosition != null) ? layout.backgroundPosition : null;
 
