@@ -852,7 +852,8 @@ SC.Record = SC.Object.extend(
           cr = store.materializeRecord(sk);
           cr.storeDidChangeProperties();
         } else {
-          cr = store.createRecord(recordType, hash) ;
+          sk = store.pushRetrieve(recordType,id,hash);
+          cr = store.materializeRecord(sk);
           if (SC.none(id)){
             sk = cr.get('storeKey');
             id = 'cr'+sk;
