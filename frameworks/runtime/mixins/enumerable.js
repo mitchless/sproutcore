@@ -982,7 +982,40 @@ SC.Reducers = /** @lends SC.Enumerable */ {
       item = item.get ? item.get(reducerProperty) : item[reducerProperty];
     }
     return (previousValue === null) ? item : previousValue + item ;
+  },
+  
+  reduceStddev: function(previousValue,item,index, e, reducerProperty){
+    // get mean first:
+    var mean = e.get('@average');
+    var dev,ret;
+    if(reducerProperty && item){
+      item = item.get ? item.get(reducerProperty) : item[reducerProperty];
+    }
+    var len = e.get ? e.get('length') : e.length;
+    dev = item - mean;
+    dev = dev*dev;
+    ret = (previousValue === null)? { mean: mean, devsum: 0 }: previousValue;
+    ret.devsum += dev;
+    if(index >= len-1) ret = Math.sqrt(ret.devsum/len);
+    return ret;
+  },
+  
+  reduceStddevsample: function(previousValue,item,index, e, reducerProperty){
+    // get mean first:
+    var mean = e.get('@average');
+    var dev,ret;
+    if(reducerProperty && item){
+      item = item.get ? item.get(reducerProperty) : item[reducerProperty];
+    }
+    var len = e.get ? e.get('length') : e.length;
+    dev = item - mean;
+    dev = dev*dev;
+    ret = (previousValue === null)? { mean: mean, devsum: 0 }: previousValue;
+    ret.devsum += dev;
+    if(index >= len-1) ret = Math.sqrt(ret.devsum/len-1);
+    return ret;
   }
+  
 } ;
 
 // Apply reducers...
