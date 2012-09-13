@@ -600,6 +600,7 @@ SC.TextFieldView = SC.FieldView.extend(SC.StaticLayout, SC.Editable,
     var input = this.$input();
     SC.Event.add(input, 'focus', this, this._textField_fieldDidFocus);
     SC.Event.add(input, 'blur',  this, this._textField_fieldDidBlur);
+    SC.Event.add(input, 'input', this, this._textField_inputDidChange);
     
     // There are certain ways users can select text that we can't identify via
     // our key/mouse down/up handlers (such as the user choosing Select All
@@ -626,6 +627,17 @@ SC.TextFieldView = SC.FieldView.extend(SC.StaticLayout, SC.Editable,
     SC.Event.remove(input, 'blur',   this, this._textField_fieldDidBlur);
     SC.Event.remove(input, 'select', this, this._textField_selectionDidChange);
     SC.Event.remove(input, 'keypress',  this, this._firefox_dispatch_keypress);
+    SC.Event.remove(input, 'input',  this, this._textField_inputDidChange);
+  },
+  
+  /**
+    This function is called by the input event, used for pasting 
+  */
+  
+  _textField_inputDidChange: function(){
+    if(this.get('applyImmediately')){
+      this.invokeLater(this.fieldValueDidChange,10);
+    }
   },
   
   /**
@@ -885,7 +897,7 @@ SC.TextFieldView = SC.FieldView.extend(SC.StaticLayout, SC.Editable,
 
     // handle tab key
     if ((which === 9 || evt.keyCode===9) && this.get('defaultTabbingEnabled')) {
-      var view = evt.shiftKey ? this.get('previousValidKeyView') : this.get('nextValidKeyView');
+      view = evt.shiftKey ? this.get('previousValidKeyView') : this.get('nextValidKeyView');
       if (view) view.becomeFirstResponder();
       else evt.allowDefault();
       return YES ; // handled
