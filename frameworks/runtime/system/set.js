@@ -369,6 +369,7 @@ SC.Set = SC.mixin({},
 
     // reduce the length
     this.length = len-1;
+    delete this[len-1];
     if (this.isObservable) this.enumerableContentDidChange();
     if (this.setObservers) this.didRemoveItem(obj);
     return this ;
