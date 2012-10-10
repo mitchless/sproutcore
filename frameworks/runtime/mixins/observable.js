@@ -952,7 +952,7 @@ SC.Observable = /** @scope SC.Observable.prototype */{
       var loc, keys, key, observer, propertyPaths, propertyPathsLength,
         len, ploc, path, chainDependents, chain;
 
-      this.bindings.invoke('disconnect');
+      this.bindings.invoke('destroy');
       this.bindings = null;
 
       // Loop through observer functions and unregister them
