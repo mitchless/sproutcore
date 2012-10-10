@@ -97,6 +97,10 @@ SC.ObserverSet = {
 
     members.pop();
     delete this._members[targetGuid][methodGuid];
+    if(jQuery.isEmptyObject(this._members[targetGuid])) {
+      // Reclaim memory
+      delete this._members[targetGuid];
+    }
 
     return true;
   },
