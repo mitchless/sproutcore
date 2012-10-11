@@ -1176,10 +1176,21 @@ SC.TextFieldView = SC.FieldView.extend(SC.StaticLayout, SC.Editable,
     // Don't handle if default tabbing hasn't been enabled.
     if (!this.get('defaultTabbingEnabled')) return NO;
     // Otherwise, handle.
-    var view = evt.shiftKey ? this.get('previousValidKeyView') : this.get('nextValidKeyView');
+    var view = this.get('nextValidKeyView');
     if (view) view.becomeFirstResponder();
     else evt.allowDefault();
     return YES ; // handled
+  },
+
+  /** @private */
+  insertBacktab: function(evt) {
+    // Don't handle if default tabbing hasn't been enabled.
+    if (!this.get('defaultTabbingEnabled')) return NO;
+    // Otherwise, handle.
+    var view = this.get('previousValidKeyView');
+    if (view) view.becomeFirstResponder();
+    else evt.allowDefault();
+    return YES; // handled
   },
 
   keyUp: function (evt) {
