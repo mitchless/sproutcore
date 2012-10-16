@@ -352,7 +352,7 @@ SC.Record = SC.Object.extend(
 
     // If we have a parent, they changed too!
     var p = this.get('parentRecord');
-    if (p) p.recordDidChange();
+    if (p) p.recordDidChange('status');
 
     this.get('store').recordDidChange(null, null, this.get('storeKey'), key);
     this.notifyPropertyChange('status');
