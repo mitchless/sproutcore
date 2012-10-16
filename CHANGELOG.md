@@ -1,6 +1,36 @@
 CHANGE LOG
 ==========
 
+Seapine SproutCore 1.9.0.1 (October 16, 2012)
+----------
+* Cherry-picked. Handlebar escaping issue with ampersands (367e59191a).
+* Cherry-picked. Changed to using 'set()' for cacheable property so internal value is recomputed (c20d17517d).
+* Cherry-picked. Fixed bug where SC.FormRowView would wrap if too wide (b9492405a2).
+* Cherry-picked. Added the ability to bind SC.FormRowView's LabelView to a property on the SC.FormView (86fa1364d1).
+* Cherry-picked. Add a maxLabelWidth property to SC.FormView (77a0f1b540).
+* Cherry-picked. Update layer position when contentViewFrame changes on touch platforms (881d8801ee).
+* Cherry-picked. Grow form view labels vertically to allow line-wrapping of label text (210619c9d3).
+* Cherry-picked. Check isDestroyed in respondsTo to avoid crash (941fc64812).
+* Cherry-picked. Handle keyDown on SC.Button to move focus (99cdcf983e).
+* Cherry-picked. Set tabindex="-1" when isBrowserFocusable is *not* set (e3085bdd1c).
+* Cherry-picked. Add escapeHTML to displayProperties in SegmentView (3df0455ea0).
+* Cherry-picked. Fix keypress handling in IE8 and Opera (c931e08c23).
+* Cherry-picked. Call _fixupTextLayout when hint shown so the right line-height is applied (d9fb17d4b3).
+* Cherry-picked. Show text cursor when over hint (06e7c0cb2b).
+* Cherry-picked. Return null if treeItemChildren length is 0 (195daaedec).
+* Cherry-picked. Add ie10 class (4334f1e1b0).
+* Cherry-picked. Fix memory leaks in SC.Event (69215e9e5e).
+* Cherry-picked. Fix memory leak in SC.Object.extend (12849dcaa1).
+* Cherry-picked. Fix memory leak in SC.Set (e53c673eec).
+* Cherry-picked. Fix observer memory leaks (e5e20b037f).
+* Cherry-picked. Fix memory leaks in SC.Observable (089628396a).
+* Cherry-picked. Miscellaneous fixes (6320f22b22).
+* Cherry-picked. Merge remote-tracking branch 'upstream/team/dcporter/binding-memleaks' into patch/fairbanksg/memory-leaks (2d3df9a0f8).
+* Cherry-picked. Add ability to destroy all records of given types (27d0707d8a).
+* Cherry-picked. Implement insertBackTab for SC.TextFieldView (2805f53113).
+* Cherry-picked. Adds support for selection direction on text fields (ad47942f5b).
+* Cherry-picked. Specify 'status' key when propagating recordDidChange to parent (ca80ea73b9).
+
 1.9.0
 ----------
 
