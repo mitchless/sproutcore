@@ -1,7 +1,7 @@
 CHANGE LOG
 ==========
 
-Seapine SproutCore 1.9.0.1 (October 16, 2012)
+Seapine SproutCore 1.9.0.2 (October 23, 2012)
 ----------
 * Cherry-picked. Handlebar escaping issue with ampersands (367e59191a).
 * Cherry-picked. Changed to using 'set()' for cacheable property so internal value is recomputed (c20d17517d).
@@ -29,7 +29,7 @@ Seapine SproutCore 1.9.0.1 (October 16, 2012)
 * Cherry-picked. Add ability to destroy all records of given types (27d0707d8a).
 * Cherry-picked. Implement insertBackTab for SC.TextFieldView (2805f53113).
 * Cherry-picked. Adds support for selection direction on text fields (ad47942f5b).
-* Cherry-picked. Specify 'status' key when propagating recordDidChange to parent (ca80ea73b9).
+* Cherry-picked. Handle IE8 XHR (9e5774ae85).
 
 1.9.0
 ----------
