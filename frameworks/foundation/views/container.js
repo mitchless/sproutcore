@@ -106,6 +106,9 @@ SC.ContainerView = SC.View.extend(
     // Take note now if we need to destroy the current contentView
     var viewToDestroy = (this._instantiatedLastView === YES) ? this.get('contentView') : null;
 
+    // If we need to cleanup the previous view, do so
+    if(viewToDestroy) viewToDestroy.destroy();
+
     // Reset for next time
     this._instantiatedLastView = NO;
 
@@ -134,9 +137,6 @@ SC.ContainerView = SC.View.extend(
     
     // Sets the content.
     this.set('contentView', content) ;
-
-    // If we need to cleanup the previous view, do so
-    if(viewToDestroy) viewToDestroy.destroy();
     
   }.observes('nowShowing'),
   
