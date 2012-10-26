@@ -1176,6 +1176,16 @@ SC.TextFieldView = SC.FieldView.extend(SC.StaticLayout, SC.Editable,
   },
 
   /** @private */
+  deleteBackward: function(evt) {
+    return this.insertText(null, evt);
+  },
+
+  /** @private */
+  deleteForward: function(evt) {
+    return this.insertText(null, evt);
+  },
+
+  /** @private */
   insertTab: function(evt) {
     // Don't handle if default tabbing hasn't been enabled.
     if (!this.get('defaultTabbingEnabled')) return NO;
