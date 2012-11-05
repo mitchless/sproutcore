@@ -67,6 +67,7 @@ SC.View.LayoutStyleCalculator = SC.Object.extend({
   _layoutDidUpdate: function(){
     var layout = this.get('layout');
     if (!layout) { return; }
+    this._layoutUpdated = YES;
 
     this.dims = SC._VIEW_DEFAULT_DIMS;
     this.loc = this.dims.length;
@@ -401,6 +402,8 @@ SC.View.LayoutStyleCalculator = SC.Object.extend({
   },
 
   calculate: function() {
+    if (!this._layoutUpdated) { this._layoutDidUpdate(); }
+
     var layout = this.get('layout'), pdim = null,
         staticLayout = this.get('staticLayout'),
         translateTop = null,
