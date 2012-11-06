@@ -1269,6 +1269,7 @@ SC.CoreView.reopen(
   removeChild: function(view) {
     // update parent node
     view.set('parentView', null) ;
+    view.set('owner', null);
 
     // remove view from childViews array.
     var childViews = this.get('childViews'),
@@ -1319,7 +1320,8 @@ SC.CoreView.reopen(
   },
 
   _destroy: function() {
-    if (this.get('isDestroyed')) { return this ; } // nothing to do
+    var layerId = this.get('layerId'),
+        guid = SC.guidFor(this);
 
     // destroy the layer -- this will avoid each child view destroying
     // the layer over and over again...
@@ -1333,7 +1335,10 @@ SC.CoreView.reopen(
     }
 
     // next remove view from global hash
-    delete SC.View.views[this.get('layerId')] ;
+    delete SC.View.views[layerId];
+    if (layerId !== guid) {
+      delete SC.View.views[guid];
+    }
     delete this._CQ ;
     delete this.page ;
 
