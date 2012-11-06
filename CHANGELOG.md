@@ -1,7 +1,7 @@
 CHANGE LOG
 ==========
 
-Seapine SproutCore 1.9.0.2 (October 23, 2012)
+Seapine SproutCore 1.9.0.3 (November 6, 2012)
 ----------
 * Cherry-picked. Handlebar escaping issue with ampersands (367e59191a).
 * Cherry-picked. Changed to using 'set()' for cacheable property so internal value is recomputed (c20d17517d).
@@ -19,17 +19,51 @@ Seapine SproutCore 1.9.0.2 (October 23, 2012)
 * Cherry-picked. Show text cursor when over hint (06e7c0cb2b).
 * Cherry-picked. Return null if treeItemChildren length is 0 (195daaedec).
 * Cherry-picked. Add ie10 class (4334f1e1b0).
-* Cherry-picked. Fix memory leaks in SC.Event (69215e9e5e).
-* Cherry-picked. Fix memory leak in SC.Object.extend (12849dcaa1).
-* Cherry-picked. Fix memory leak in SC.Set (e53c673eec).
-* Cherry-picked. Fix observer memory leaks (e5e20b037f).
-* Cherry-picked. Fix memory leaks in SC.Observable (089628396a).
-* Cherry-picked. Miscellaneous fixes (6320f22b22).
-* Cherry-picked. Merge remote-tracking branch 'upstream/team/dcporter/binding-memleaks' into patch/fairbanksg/memory-leaks (2d3df9a0f8).
 * Cherry-picked. Add ability to destroy all records of given types (27d0707d8a).
 * Cherry-picked. Implement insertBackTab for SC.TextFieldView (2805f53113).
 * Cherry-picked. Adds support for selection direction on text fields (ad47942f5b).
+* Cherry-picked. Specify 'status' key when propagating recordDidChange to parent (ca80ea73b9).
+* Reverted. Revert "Specify 'status' key when propagating recordDidChange to parent." (58adec7ac1).
 * Cherry-picked. Handle IE8 XHR (9e5774ae85).
+* Cherry-picked. Destroy ContainerView content before creating the new view (4781090fe0).
+* Cherry-picked. Implement deleteBackward and deleteForward for SC.TextFieldView (003c68c2ec).
+* Cherry-picked. Fixes SC.SegmentedView overflow (3b7a3ef43d).
+* Cherry-picked. Move drag code from SC.PalettePane to a mixin (7a5ad32780).
+* Cherry-picked. Add containing div to SC.DisclosureView label (26c3bf828b).
+* Cherry-picked. Withdraw body overflow request when panes are detached (092535aafd).
+* Cherry-picked. Make sure _layoutDidUpdate has been called before calculate (392008d5ab).
+* Cherry-picked. Added SC.View#owner cleanup on destroy (ccaa4897aa).
+* Cherry-picked. Added unit tests for SC.View#destroy (4b2e7b2672).
+* Cherry-picked. Empowered bindings to destroy themselves as needed. (Aggressive destruction strategy needs verification.) (ce66bf1128).
+* Cherry-picked. Moved binding destruction into its own method that gets called on Object#destroy (9b8f8b42f7).
+* Cherry-picked. Fixed a bug where calling tupleForPropertyPath with no path would throw an error (888e9e3af0).
+* Cherry-picked. Improved binding self-destruction for improved garbage collection in complex binding scenarios (de9502b233).
+* Cherry-picked. Added proper documentation for Binding#destroy (c7ea16b474).
+* Cherry-picked. Added several unit tests for binding destruction (6e2fcb74cf).
+* Cherry-picked. Added unit test for SC.tupleForPropertyPath(null) (173978b0f6).
+* Cherry-picked. Created destroyObservable to parallel initObservable; included TODOs for destroying observers and properties (cd479e9c12).
+* Cherry-picked. Uncommented one unfairly-maligned unit test (b9e9569631).
+* Cherry-picked. Removes unused internal property of SC.Binding:_changePending.  This property gets assigned and never read other than in some unit tests which have been upgraded to check for the real indication of when a change is pending (007c935030).
+* Cherry-picked. Adds test to show that reconnecting a binding updates the value again after the binding was disconnected (f0b9c61750).
+* Cherry-picked. Removes whitespace and tidies up some comments (7bac02da30).
+* Cherry-picked. Fixes small memory leak in SC.ObserverSet (80e852d7a9).
+* Cherry-picked. Fixes memory leak in SC.Set (7c25efd595).
+* Cherry-picked. Removes excess whitespace (2f982131ad).
+* Cherry-picked. Extends SC.Observable:destroyObservable to also remove observers (4e6152b460).
+* Cherry-picked. Tidies up the SC.Binding destroy method and extends the tests a bit (f41cfd8131).
+* Cherry-picked. Fix memory leaks in SC.Event (c52f34e1fd).
+* Cherry-picked. Fix memory leak in SC.Object.extend (0eb7897ea1).
+* Cherry-picked. Fix observer memory leaks (57f370febd).
+* Cherry-picked. Fix memory leaks in SC.Observable (8534cf6f18).
+* Cherry-picked. Miscellaneous fixes (1e30f71a37).
+* Cherry-picked. Fix incorrect pruning of SC.SelectionSet objects (43b43f052f).
+* Cherry-picked. Fix memory leaks in views (91e1eae5d3).
+* Cherry-picked. Fix memory leak in SC.AlertPane (2e56817b16).
+* Cherry-picked. Fix memory leaks in SC.CollectionView (cc7bb790d9).
+* Cherry-picked. Fix memory leaks in SC.MenuItemView (24082d1ace).
+* Cherry-picked. Fix memory leaks in SC.SegmentedView (08d926dcc5).
+* Cherry-picked. Fix memory leaks in SC.TemplateCollectionView (46b5ec3f72).
+* Cherry-picked. Fix memory leaks in SC.Binding (10bd4efc63).
 
 1.9.0
 ----------
