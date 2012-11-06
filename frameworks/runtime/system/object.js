@@ -632,7 +632,9 @@ SC.Object.prototype = {
     var idx, inits = this.destroyMixin, len = (inits) ? inits.length : 0 ;
     for(idx=0;idx < len; idx++) inits[idx].call(this);
 
-    this.destroyObservable();
+    // disconnect all bindings
+    this.bindings.invoke('disconnect');
+    this.bindings = null;
 
     return this ;
   },

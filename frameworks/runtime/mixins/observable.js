@@ -537,7 +537,6 @@ SC.Observable = /** @scope SC.Observable.prototype */{
 
       // define dependents if not defined already.
       if (!dependents) this._kvo_dependents = dependents = {} ;
-      if (!chainDependents) this._kvo_chain_dependents = chainDependents = [];
 
       // for each key, build array of dependents, add this key...
       // note that we ignore the first argument since it is the key...
@@ -545,7 +544,7 @@ SC.Observable = /** @scope SC.Observable.prototype */{
         dep = keys[idx] ;
 
         if (dep.indexOf('.') >= 0) {
-          chainDependents.push(SC._PropertyChain.createChain(dep, this, key).activate());
+          SC._PropertyChain.createChain(dep, this, key).activate();
         } else {
           // add dependent key to dependents array of key it depends on
           queue = dependents[dep] ;
@@ -791,7 +790,7 @@ SC.Observable = /** @scope SC.Observable.prototype */{
     */
     removeObserver: function(key, target, method) {
 
-      var kvoKey, chains, chain, observers, idx, toRemove;
+      var kvoKey, chains, chain, observers, idx ;
 
       // normalize.  if a function is passed to target, make it the method.
       if (method === undefined) {
@@ -812,19 +811,15 @@ SC.Observable = /** @scope SC.Observable.prototype */{
 
           // if chains have not been cloned yet, do so now.
           chains = this._kvo_for(kvoKey) ;
-          toRemove = SC.IndexSet.create();
 
           // remove any chains
           idx = chains.length;
           while(--idx >= 0) {
             chain = chains[idx];
             if (chain && (chain.masterTarget===target) && (chain.masterMethod===method)) {
-              chain.destroyChain() ;
-              toRemove.add(idx);
+              chains[idx] = chain.destroyChain() ;
             }
           }
-          chains.removeAt(toRemove);
-          toRemove = null;
         }
 
       // otherwise, just like a normal observer.
@@ -941,41 +936,6 @@ SC.Observable = /** @scope SC.Observable.prototype */{
       delete this._observers;
       delete this._bindings;
       delete this._properties;
-    },
-
-    /**
-     * Removes observers & bindings during destruction of this object.
-     */
-    destroyObservable: function() {
-      if (!this._observableInited) return;
-
-      var loc, keys, key, observer, propertyPaths, propertyPathsLength,
-        len, ploc, path, chainDependents, chain;
-
-      this.bindings.invoke('disconnect');
-      this.bindings = null;
-
-      // Loop through observer functions and unregister them
-      if (keys = this._observers) {
-        for(loc = 0, len = keys.length; loc<len; ++loc) {
-          key = keys[loc]; observer = this[key] ;
-          propertyPaths = observer.propertyPaths ;
-          propertyPathsLength = (propertyPaths) ? propertyPaths.length : 0 ;
-          for(ploc=0; ploc<propertyPathsLength; ++ploc) {
-            path = propertyPaths[ploc] ;
-            this.removeObservesHandler(observer, path);
-          }
-        }
-      }
-
-      // Deactivate property chains
-      if (chainDependents = this._kvo_chain_dependents) {
-        for (loc = 0, len = chainDependents.length; loc < len; ++loc) {
-          chain = chainDependents[loc];
-          chain.deactivate();
-        }
-        chainDependents = this._kvo_chain_dependents = null;
-      }
     },
 
     /**
