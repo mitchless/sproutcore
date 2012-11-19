@@ -1325,6 +1325,9 @@ SC.CoreView.reopen(
     var layerId = this.get('layerId'),
         guid = SC.guidFor(this);
 
+    // make sure we don't get left as first responder
+    this.resignFirstResponder();
+
     // destroy the layer -- this will avoid each child view destroying
     // the layer over and over again...
     this.destroyLayer() ;
