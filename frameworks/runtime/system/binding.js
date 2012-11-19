@@ -18,6 +18,12 @@ sc_require('system/object');
 SC.LOG_BINDINGS = NO ;
 
 /**
+  Debug parameter. Logs a warning when a duplicate binding is present on a
+  child class that is also present on the parent.
+*/
+SC.LOG_DUPLICATE_BINDINGS = NO;
+
+/**
   Performance parameter.  This will benchmark the time spent firing each
   binding.
 

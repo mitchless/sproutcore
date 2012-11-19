@@ -10,6 +10,7 @@ sc_require('mixins/observable') ;
 sc_require('private/observer_queue');
 sc_require('mixins/array') ;
 sc_require('system/set');
+sc_require('system/index_set');
 
 /*globals $$sel */
 
@@ -94,7 +95,7 @@ SC._object_extend = function _object_extend(base, ext, proto) {
   var bindings = base._bindings, clonedBindings = NO,
       observers = base._observers, clonedObservers = NO,
       properties = base._properties, clonedProperties = NO,
-      paths, pathLoc, local, value;
+      paths, pathLoc, local, value, bindingsToRemove = SC.IndexSet.create();
 
   // outlets are treated a little differently because you can manually
   // name outlets in the passed in hash. If this is the case, then clone
@@ -124,20 +125,22 @@ SC._object_extend = function _object_extend(base, ext, proto) {
       }
 
       if (bindings === null) bindings = (base._bindings || SC.EMPTY_ARRAY).slice();
-      //@if(debug)
-      // Add some developer support.
 
       // If a property binding is set on a Class and that Class is extended and
       // the same property binding is set in the extend, two instances of the
       // same Binding will exist on the object leading to strange behavior.
       for (var i = bindings.length - 1; i >= 0; i--) {
         if (bindings[i] === key) {
-          // There is already a binding for this key!
-          SC.warn("Developer Warning: '%@' was defined twice on the same class, likely because it was defined on both the parent and its subclass.  See the initial line of the following trace:".fmt(key));
-          SC.Logger.trace();
+          // There is already a binding for this key; remove the one defined from the base
+          bindingsToRemove.add(i);
+          //@if(debug)
+          if (SC.LOG_DUPLICATE_BINDINGS) {
+            SC.warn("Developer Warning: '%@' was defined twice on the same class, likely because it was defined on both the parent and its subclass.  See the initial line of the following trace:".fmt(key));
+            SC.Logger.trace();
+          }
+          //@endif
         }
       }
-      //@endif
       bindings[bindings.length] = key ;
 
     // Also add observers, outlets, and properties for functions...
@@ -198,6 +201,13 @@ SC._object_extend = function _object_extend(base, ext, proto) {
     // copy property
     base[key] = value ;
   }
+
+  // remove duplicate bindings from base
+  if (bindings) {
+    bindings.removeAt(bindingsToRemove);
+  }
+  bindingsToRemove.destroy();
+  bindingsToRemove = null;
 
   // Manually set base on toString() because some JS engines (such as IE8) do
   // not enumerate it
