@@ -1126,13 +1126,15 @@ SC.CoreView.reopen(
   */
   init: function() {
     var parentView = this.get('parentView'),
-        path, root, lp, displayProperties ;
+        path, root, lp, displayProperties, layerId;
 
     sc_super();
 
+    layerId = this._lastLayerId = this.get('layerId');
+
     // Register the view for event handling. This hash is used by
     // SC.RootResponder to dispatch incoming events.
-    SC.View.views[this.get('layerId')] = this;
+    SC.View.views[layerId] = this;
 
     // setup classNames
     this.classNames = this.get('classNames').slice();
