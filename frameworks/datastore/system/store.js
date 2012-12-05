@@ -482,10 +482,9 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     @param {Number} rev optional new revision number. normally leave null
     @param {Boolean} statusOnly (optional) YES if only status changed
     @param {String} key that changed (optional)
-    @param {Boolean} removed (optional) YES if record was removed
     @returns {SC.Store} receiver
   */
-  dataHashDidChange: function(storeKeys, rev, statusOnly, key, removed) {
+  dataHashDidChange: function(storeKeys, rev, statusOnly, key) {
 
     // update the revision for storeKey.  Use generateStoreKey() because that
     // guarantees a universally (to this store hierarchy anyway) unique
@@ -505,10 +504,10 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     for(idx=0;idx<len;idx++) {
       if (isArray) storeKey = storeKeys[idx];
       this.revisions[storeKey] = rev;
-      this._notifyRecordPropertyChange(storeKey, statusOnly, key, removed);
+      this._notifyRecordPropertyChange(storeKey, statusOnly, key);
 
       this._propagateToChildren(storeKey, function(storeKey){
-        that.dataHashDidChange(storeKey, null, statusOnly, key, removed);
+        that.dataHashDidChange(storeKey, null, statusOnly, key);
       });
     }
 
@@ -519,7 +518,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     Will push all changes to a the recordPropertyChanges property
     and execute `flush()` once at the end of the runloop.
   */
-  _notifyRecordPropertyChange: function(storeKey, statusOnly, key, removed) {
+  _notifyRecordPropertyChange: function(storeKey, statusOnly, key) {
 
     var records      = this.records,
         nestedStores = this.get('nestedStores'),
@@ -536,7 +535,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
       // when store needs to propagate out changes in the parent store
       // to nested stores
       if (editState === K.INHERITED) {
-        store._notifyRecordPropertyChange(storeKey, statusOnly, key, removed);
+        store._notifyRecordPropertyChange(storeKey, statusOnly, key);
 
       } else if (status & SC.Record.BUSY) {
         // make sure nested store does not have any changes before resetting
@@ -552,7 +551,6 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
         { storeKeys:      SC.CoreSet.create(),
           records:        SC.CoreSet.create(),
           hasDataChanges: SC.CoreSet.create(),
-          wasRemoved:     SC.CoreSet.create(),
           propertyForStoreKeys: {} };
     }
 
@@ -567,7 +565,6 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
       // has `statusOnly=true` and another has `statusOnly=false`, the flush
       // will (correctly) operate in `statusOnly=false` mode.
       if (!statusOnly) changes.hasDataChanges.push(storeKey);
-      if (removed) changes.wasRemoved.push(storeKey);
 
       // If this is a key specific change, make sure that only those
       // properties/keys are notified.  However, if a previous invocation of
@@ -608,16 +605,14 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     var changes              = this.recordPropertyChanges,
         storeKeys            = changes.storeKeys,
         hasDataChanges       = changes.hasDataChanges,
-        wasRemoved           = changes.wasRemoved,
         records              = changes.records,
         propertyForStoreKeys = changes.propertyForStoreKeys,
         recordTypes = SC.CoreSet.create(),
-        rec, recordType, statusOnly, removed, idx, len, storeKey, keys;
+        rec, recordType, statusOnly, idx, len, storeKey, keys;
 
     storeKeys.forEach(function(storeKey) {
       if (records.contains(storeKey)) {
         statusOnly = hasDataChanges.contains(storeKey) ? NO : YES;
-        removed = wasRemoved.contains(storeKey) ? YES : NO;
         rec = this.records[storeKey];
         keys = propertyForStoreKeys ? propertyForStoreKeys[storeKey] : null;
 
@@ -629,7 +624,6 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
         records.remove(storeKey);
 
         if (rec) rec.storeDidChangeProperties(statusOnly, keys);
-        if (removed) delete this.records[storeKey];
       }
 
       recordType = SC.Store.recordTypeFor(storeKey);
@@ -641,7 +635,6 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     storeKeys.clear();
     hasDataChanges.clear();
-    wasRemoved.clear();
     records.clear();
     // Provide full reference to overwrite
     this.recordPropertyChanges.propertyForStoreKeys = {};
@@ -1263,7 +1256,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     // remove the data hash, set new status
     this.removeDataHash(storeKey, status);
-    this.dataHashDidChange(storeKey, undefined, undefined, undefined, YES);
+    this.dataHashDidChange(storeKey);
 
     // Handle all the child Records
     var that = this;
