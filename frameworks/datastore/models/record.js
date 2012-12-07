@@ -292,10 +292,18 @@ SC.Record = SC.Object.extend(
     if (ro){
       store.refreshRecord(null, null, sk);
     } else if (parent){
+      // TODO: See notes below
+      // Refresh is used when utilizing a data source. As it stands the store provides no mechanism
+      // to perform a partial update of the underlying data hash (and the nested SC.Record's data is
+      // all part of that data hash).
+      // Once the store provides such a mechanism this branch should be filled out to trigger that
+      // partial update.
+      // This mechanism should operate in such a way that the nested SC.Record is updated without
+      // triggering an update of its parent record. Somehow...
+      var hash = parent.readAttribute(parentAttr);
+
       // effect should be different, because a childrecord should never force the main record to refresh
       // the main record should hold the entire hash as cache, and return the part of this record
-      var hash = parent.readChildHash(parentAttr);
-      // TODO: What do else needs done to materialize the record?
       // now set attributes
       //rec = parent.materializeChildRecord(); //rec = parentstore.materializeRecord(prKey);
       //rec.refresh(recordOnly);
@@ -304,27 +312,6 @@ SC.Record = SC.Object.extend(
     return this ;
   },
 
-    /**
-      Read the data hash for the nested child SC.Record at the given attribute.
-
-      @param {String|Number} attribute the attribute in this SC.Record's data hash where we can find the data hash for the child SC.Record
-      @return {Object}
-     */
-  readChildHash: function(attribute){
-    var parent = this.get('parent'),
-      parentAttribute = this.get('parentAttribute');
-    if(!parent){ // we are the top
-      // TODO: where is _backup defined?
-      return this._backup[parentAttribute];
-    }
-    else {
-      var parrec = parent.readChildHash(parentAttribute);
-      if(parrec !== undefined){
-        return parrec[parentAttribute];
-      }
-    }
-  },
-  
   /**
     Deletes the record along with any dependent records.  This will mark the 
     records destroyed in the store as well as changing the isDestroyed 
@@ -457,7 +444,7 @@ SC.Record = SC.Object.extend(
     if(!parent){
       store = this.get('store');
       storeKey = this.get('storeKey');
-      attrs = store.readDataHash(storeKey);      
+      attrs = store.readDataHash(storeKey);
     }
     else {
       // get the data hash from the parent record
