@@ -436,7 +436,7 @@ SC.Record = SC.Object.extend(
     Reads the raw attribute from the underlying data hash.  This method does
     not transform the underlying attribute at all.
   
-    @param {String} key the attribute you want to read
+    @param {String|Number} key the attribute you want to read
     @returns {Object} the value of the key, or null if it doesn't exist
   */
   readAttribute: function(key) {
@@ -448,7 +448,9 @@ SC.Record = SC.Object.extend(
       attrs = store.readDataHash(storeKey);      
     }
     else {
-      // TODO: How do we get the data has in the event that we have a parent?
+      // get the data hash from the parent record
+      var parentAttr = this.get('parentAttribute');
+      attrs = parent.readAttribute(parentAttr);
     }
     return attrs ? attrs[key] : undefined ; 
   },
