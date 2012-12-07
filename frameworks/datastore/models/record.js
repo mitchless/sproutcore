@@ -314,6 +314,7 @@ SC.Record = SC.Object.extend(
     var parent = this.get('parent'),
       parentAttribute = this.get('parentAttribute');
     if(!parent){ // we are the top
+      // TODO: where is _backup defined?
       return this._backup[parentAttribute];
     }
     else {
@@ -415,6 +416,17 @@ SC.Record = SC.Object.extend(
   },
 
   /**
+    Roll out one level of editing in the event that no attributes were written. This can be nested
+    along with calls to beginEditing(), but should be done in place of endEditing().
+
+    @return {SC.Record} receiver
+   */
+  cancelEditing: function() {
+    this._editLevel--;
+    return this;
+  },
+
+  /**
     Notifies the store of record changes if this matches a top level call to
     beginEditing().  This method is called automatically whenever you set an
     attribute, but you can call it yourself to group multiple changes.
@@ -456,6 +468,67 @@ SC.Record = SC.Object.extend(
   },
 
   /**
+    Helper method to recurse down the attributes to the data hash we are changing.
+
+    @param attrs
+    @param keyStack
+    @return {Object}
+    @private
+   */
+  _retrieveAttrs: function(attrs, keyStack) {
+    // TODO: need to throw an exception if we run out of attributes before we run out of keys
+    if (2 > keyStack.length) {
+      return attrs[keyStack.pop()];
+    } else {
+      var key = keyStack.pop();
+      return this._retrieveAttr(attrs[key], keyStack);
+    }
+  },
+
+  _writeAttribute: function(keyStack, value, ignoreDidChange) {
+    var parent = this.get('parent'),
+      parentAttr,
+      store,
+      storeKey,
+      attrs,
+      attrsToChange,
+      lastKey,
+      didChange = NO;
+
+    if (parent) {
+      // If we have a parent record, we need to get our editable hash from the parent record
+      // push the parentAttribute onto the keyStack and call this function on the parent
+      parentAttr = this.get('parentAttribute');
+      keyStack.push(parentAttr);
+      parent._writeAttribute(keyStack, value, ignoreDidChange);
+    } else {
+      // We have reached the top. Now we need to grab the editable has from the store and update it
+      store = this.get('store');
+      storeKey = this.get('storeKey');
+
+      attrs = store.readEditableDataHash(storeKey);
+
+      // no attributes? that's bad
+      if (!attrs) {
+        throw SC.Record.BAD_STATE_ERROR;
+      }
+
+      attrsToChange = _retrieveAttrs(attrs, keyStack);
+      lastKey = keyStack.pop();
+
+      // TODO: need to throw an exception if we run out of keys or attributes
+      // if the value is the same, do not flag the record as dirty
+      if (value !== attrsToChange[lastKey]) {
+        // NOTE: the public method, writeAttribute, calls beginEditing() and endEditing()
+        attrsToChange[lastKey] = value;
+        didChange = YES;
+      }
+    }
+
+    return didChange;
+  },
+
+  /**
     Updates the passed attribute with the new value.  This method does not 
     transform the value at all.  If instead you want to modify an array or 
     hash already defined on the underlying json, you should instead get 
@@ -468,13 +541,33 @@ SC.Record = SC.Object.extend(
     @returns {SC.Record} receiver
   */
   writeAttribute: function(key, value, ignoreDidChange) {
-    var store    = this.get('store'), 
-        storeKey = this.get('storeKey'),
-        parent   = this.get('parent'),
-        attrs;
+    var keyStack = [],
+      didChange;
+
+    if (!ignoreDidChange) {
+      this.beginEditing();
+    }
+
+    keyStack.push(key);
+    didChange = this._writeAttribute(keyStack, value, ignoreDidChange);
+
+    if (didChange) {
+      if (!ignoreDidChange) {
+        this.endEditing(key);
+      } else {
+        this.cancelEditing();
+      }
+    }
+
+
+    /*
+    var store = this.get('store'),
+      storeKey = this.get('storeKey'),
+      parent = this.get('parent'),
+      parentAttr = this.get('parentAttribute'),
+      attrs;
     
     if(parent){
-      // TODO: I'm not clear what this is doing
       parent.writeChildAttribute(this.parent)
     }
     attrs = store.readEditableDataHash(storeKey);
@@ -494,6 +587,7 @@ SC.Record = SC.Object.extend(
       
       if(!ignoreDidChange) this.endEditing(key);
     }
+    */
     return this ;
   },
   
