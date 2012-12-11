@@ -1,7 +1,7 @@
 CHANGE LOG
 ==========
 
-Seapine SproutCore 1.9.0.4 (November 21, 2012)
+Seapine SproutCore 1.9.0.5 (December 11, 2012)
 ----------
 * Cherry-picked. Handlebar escaping issue with ampersands (367e59191a).
 * Cherry-picked. Changed to using 'set()' for cacheable property so internal value is recomputed (c20d17517d).
@@ -67,11 +67,14 @@ Seapine SproutCore 1.9.0.4 (November 21, 2012)
 * Cherry-picked. Fix issues with unregistering nested records (5821de27c5).
 * Cherry-picked. Fix calculations for (un)registering ChildArray records (8b108d110e).
 * Cherry-picked. Fix drag and drop handling for nested records (9c3c524a1f).
-* Cherry-picked. Remove the cached record object when a record is unloaded (21cb661638).
 * Cherry-picked. Add support to SC.Button for firing the action on keydown (cd12b4e6f7).
 * Cherry-picked. Modified the developer warning for duplicate bindings (39c0deec27).
 * Cherry-picked. Avoid duplicate properties in collection helper (c347c9521f).
 * Cherry-picked. Resign first responder when view is destroyed (5c0241ee4d).
+* Cherry-picked. Don't forget to call arrayContentWillChange as well when enumerable changes (5347b51703).
+* Cherry-picked. Fix SC.ImageView to more reliably set the image class (5eb07d638a).
+* Cherry-picked. Fix SC.TemplateCollectionView content observer (a431ef9525).
+* Cherry-picked. Implement insertNewline for SC.TextFieldView (161815a98e).
 
 1.9.0
 ----------
