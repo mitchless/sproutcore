@@ -40,14 +40,19 @@ SC.TemplateCollectionView = SC.TemplateView.extend(
 
   /**
     @private
-    When the view is initialized, set up array observers on the content array.
-
-    @returns SC.TemplateCollectionView
+    When the view is destroyed, remove array observers on the content array.
   */
-  init: function() {
-    var templateCollectionView = sc_super();
-    this._sctcv_contentDidChange();
-    return templateCollectionView;
+  destroy: function() {
+    var content = this.get('content');
+    if(content) {
+      content.removeArrayObservers({
+        target: this,
+        willChange: 'arrayContentWillChange',
+        didChange: 'arrayContentDidChange'
+      });
+    }
+    this.removeObserver('content', this, this._sctcv_contentDidChange);
+    return sc_super();
   },
 
   /**
@@ -75,10 +80,9 @@ SC.TemplateCollectionView = SC.TemplateView.extend(
     if (this._sctcv_layerCreated) { return; }
     this._sctcv_layerCreated = true;
 
-    var content = this.get('content');
-    if(content) {
-      this.arrayContentDidChange(0, 0, content.get('length'));
-    }
+    //set up array observers on the content array.
+    this.addObserver('content', this, this._sctcv_contentDidChange);
+    this._sctcv_contentDidChange();
   },
 
   /**
@@ -216,7 +220,7 @@ SC.TemplateCollectionView = SC.TemplateView.extend(
     this.arrayContentWillChange(0, oldLen, newLen);
     this._content = this.get('content');
     this.arrayContentDidChange(0, oldLen, newLen);
-  }.observes('content'),
+  },
 
   arrayContentWillChange: function(start, removedCount, addedCount) {
     // If the contents were empty before and this template collection has an empty view
