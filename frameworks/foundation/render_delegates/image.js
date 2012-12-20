@@ -72,7 +72,7 @@ SC.BaseTheme.imageRenderDelegate = SC.RenderDelegate.create({
     if (SC.none(imageValue)) {
       jquery.removeClass();
     } else if(!jquery.hasClass(imageValue)) {
-      jquery.prop('class', imageValue); // clears all classes and sets the class attribute to imageValue
+      jquery.attr('class', imageValue); // clears all classes and sets the class attribute to imageValue
     }
 
     if (toolTip) {
