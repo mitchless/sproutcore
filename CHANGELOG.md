@@ -1,7 +1,7 @@
 CHANGE LOG
 ==========
 
-Seapine SproutCore 1.9.0.5 (December 11, 2012)
+Seapine SproutCore 1.9.0.6 (January 2, 2013)
 ----------
 * Cherry-picked. Handlebar escaping issue with ampersands (367e59191a).
 * Cherry-picked. Changed to using 'set()' for cacheable property so internal value is recomputed (c20d17517d).
@@ -75,6 +75,11 @@ Seapine SproutCore 1.9.0.5 (December 11, 2012)
 * Cherry-picked. Fix SC.ImageView to more reliably set the image class (5eb07d638a).
 * Cherry-picked. Fix SC.TemplateCollectionView content observer (a431ef9525).
 * Cherry-picked. Implement insertNewline for SC.TextFieldView (161815a98e).
+* Cherry-picked. Switch .prop to .attr so this fix actually works (7c1f493efb).
+* Cherry-picked. Add constant for the delay value (95c433f0c4).
+* Cherry-picked. Add null check in recomputeIsVisibleInWindow (cf9b1e678e).
+* Cherry-picked. Fix caching issue with SC.routes.informLocation (1e076f6e61).
+* Cherry-picked. Further changes to unregister child records when a record is unloaded (85fe1fde22).
 
 1.9.0
 ----------
