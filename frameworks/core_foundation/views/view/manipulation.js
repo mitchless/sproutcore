@@ -115,6 +115,9 @@ SC.View.reopen(
     // set parentView of child
     view.set('parentView', this);
 
+    // take ownership of child
+    view.set('owner', this);
+
     // add to childView's array.
     var idx, childViews = this.get('childViews') ;
     if (childViews.needsClone) { this.set(childViews = []); }
