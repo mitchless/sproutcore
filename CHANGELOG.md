@@ -1,7 +1,7 @@
 CHANGE LOG
 ==========
 
-Seapine SproutCore 1.9.0.6 (January 2, 2013)
+Seapine SproutCore 1.9.0.7 (January 9, 2013)
 ----------
 * Cherry-picked. Handlebar escaping issue with ampersands (367e59191a).
 * Cherry-picked. Changed to using 'set()' for cacheable property so internal value is recomputed (c20d17517d).
@@ -80,6 +80,12 @@ Seapine SproutCore 1.9.0.6 (January 2, 2013)
 * Cherry-picked. Add null check in recomputeIsVisibleInWindow (cf9b1e678e).
 * Cherry-picked. Fix caching issue with SC.routes.informLocation (1e076f6e61).
 * Cherry-picked. Further changes to unregister child records when a record is unloaded (85fe1fde22).
+* Cherry-picked. Propagate status changes to child records (c5b446240b).
+* Cherry-picked. Skip handling drag events on draggable panes if the target of the event has indicated text should be selectable (5d58d299a9).
+* Cherry-picked. Fixes a regression with SC.CollectionView that occurred after a previous fix to remove a view DOM leak.  SC.CollectionView previously created a view with the same layerId as the view to be replaced before replacing it, which only worked because of some weird logic external to the CollectionView that used to prevent a view from being able to find its layer if it didn't have a parentView (which was also the cause of a leak because the layer might still exist in the DOM).  In any case, having two views use the same layerId at the same time is a bad idea (811c6bb746).
+* Cherry-picked. Modified unregisterChildFromParent so it can safely be called on any storeKey, even if it is not a child record (020a5f86a2).
+* Cherry-picked. Set owner of view when inserting it into a new parent (9fb46b7728).
+* Cherry-picked. More memory leak fixes (1da8572c28).
 
 1.9.0
 ----------
