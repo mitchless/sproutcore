@@ -399,3 +399,13 @@ test("try to perform 'yellow' on statechart -- current states X and Y", function
   ok(!stateZ.get('handledEvent'), 'state Z did not handle event yellow');
   ok(!root.get('handledEvent'), 'root not did handle event yellow');
 });
+
+test("Check destroyed statechart does not respond to events", function() {
+  statechart.destroy();
+
+  ok(!statechart.respondsTo('foo'), 'statechart should not respond to foo');
+  ok(!statechart.respondsTo('eventA'), 'statechart should not respond to eventA');
+  ok(!statechart.respondsTo('eventB'), 'statechart should not respond to eventB');
+  ok(!statechart.respondsTo('foox'), 'statechart should not respond to foox');
+  ok(!statechart.respondsTo('eventC'), 'statechart should not respond to eventC');
+});
