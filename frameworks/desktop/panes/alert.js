@@ -437,8 +437,9 @@ SC.AlertPane.mixin(
     var pane = this.create(args), 
         idx = 0, 
         buttons = args.buttons,
-        buttonView, title, action, target, themeName;
-    
+        buttonView, title, action, target, themeName,
+        isDefault, isCancel;
+
     if(buttons) {
       buttons.forEach(function(button) {
         idx++;
@@ -448,11 +449,15 @@ SC.AlertPane.mixin(
         title = button.title;
         action = button.action;
         target = button.target;
+        isDefault = button.isDefault;
+        isCancel = button.isCancel;
         themeName = args.themeName || 'capsule';
         
         buttonView.set('title'.fmt(idx), title);
         if(action) buttonView.set('customAction'.fmt(idx), action);
         if(target) buttonView.set('customTarget'.fmt(idx), target);
+        if (isDefault !== undefined) { buttonView.set('isDefault', isDefault); }
+        if (isCancel !== undefined) { buttonView.set('isCancel', isCancel); }
         buttonView.set('isVisible', !!title);
         buttonView.set('themeName', themeName);
       });
