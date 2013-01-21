@@ -1,7 +1,7 @@
 CHANGE LOG
 ==========
 
-Seapine SproutCore 1.9.0.7 (January 9, 2013)
+Seapine SproutCore 1.9.0.8 (January 21, 2013)
 ----------
 * Cherry-picked. Handlebar escaping issue with ampersands (367e59191a).
 * Cherry-picked. Changed to using 'set()' for cacheable property so internal value is recomputed (c20d17517d).
@@ -86,6 +86,13 @@ Seapine SproutCore 1.9.0.7 (January 9, 2013)
 * Cherry-picked. Modified unregisterChildFromParent so it can safely be called on any storeKey, even if it is not a child record (020a5f86a2).
 * Cherry-picked. Set owner of view when inserting it into a new parent (9fb46b7728).
 * Cherry-picked. More memory leak fixes (1da8572c28).
+* Cherry-picked. More robust handling of childViews in recomputeIsVisibleInWindow (3f2436f123).
+* Cherry-picked. Fix indexing problem in SC.CollectionView (58f6158e61).
+* Cherry-picked. Call notifyPropertyChange on currentStates when statechart is destroyed (f0117d4f17).
+* Cherry-picked. Revert "Check isDestroyed in respondsTo to avoid crash." (35a2ba3c68).
+* Cherry-picked. Make modal pane fill entire window, regardless of scrolling (47fb10a2c0).
+* Cherry-picked. Add the ability to specify isDefault and isCancel for SC.AlertPane buttons (3b5278970f).
+* Cherry-picked. Make SC.ScrollView take scrollbar visibility into account when resizing (4da5803580).
 
 1.9.0
 ----------
