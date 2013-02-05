@@ -484,3 +484,39 @@ test("Test upload event listeners on successful request.", function() {
 
   stop() ; // stops the test runner - wait for response
 });
+
+test("Pending and inflight accessors", function() {
+  var prevMaxRequests = SC.Request.manager.get('maxRequests'),
+      request2 = SC.Request.getUrl(url),
+      response,
+      response2;
+
+  SC.Request.manager.set('maxRequests', 1);
+
+  request.notify('progress', this, function(evt) {
+    ok(SC.Request.manager.isInFlight(response), 'First request is inflight.');
+  });
+
+  request2.notify('loadstart', this, function(evt) {
+    ok(!SC.Request.manager.isPending(response2), 'Second request is no longer pending.');
+  });
+
+  request2.notify('progress', this, function(evt) {
+    ok(SC.Request.manager.isInFlight(response2), 'Second request is inflight.');
+  });
+
+  request2.notify('loadend', this, function(evt) {
+    ok(!SC.Request.manager.isInFlight(response), 'First request is no longer inflight.');
+
+    SC.Request.manager.set('maxRequests', prevMaxRequests);
+
+    window.start();
+  });
+
+  response = request.send();
+  response2 = request2.send();
+
+  ok(SC.Request.manager.isPending(response2), 'Second request is pending.');
+
+  stop();
+});
