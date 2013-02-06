@@ -864,6 +864,10 @@ SC.TextFieldView = SC.FieldView.extend(SC.StaticLayout, SC.Editable,
     }
   },
 
+  didAppendToDocument: function() {
+    this._fixupTextLayout();
+  },
+
   /** @private
     Apply proper text layout to sc-hints and inputs.
    */
