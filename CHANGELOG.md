@@ -1,7 +1,7 @@
 CHANGE LOG
 ==========
 
-Seapine SproutCore 1.9.0.8 (January 21, 2013)
+Seapine SproutCore 1.9.0.9 (February 7, 2013)
 ----------
 * Cherry-picked. Handlebar escaping issue with ampersands (367e59191a).
 * Cherry-picked. Changed to using 'set()' for cacheable property so internal value is recomputed (c20d17517d).
@@ -93,6 +93,15 @@ Seapine SproutCore 1.9.0.8 (January 21, 2013)
 * Cherry-picked. Make modal pane fill entire window, regardless of scrolling (47fb10a2c0).
 * Cherry-picked. Add the ability to specify isDefault and isCancel for SC.AlertPane buttons (3b5278970f).
 * Cherry-picked. Make SC.ScrollView take scrollbar visibility into account when resizing (4da5803580).
+* Cherry-picked. Update button isDefault/isCancel handling on SC.AlertPane (9d6020e63e).
+* Cherry-picked. Let insertText handle insertNewline for textareas (f1f62a6ba2).
+* Cherry-picked. Adds SC.Request.manager functions isPending and isInFlight (a9cb8447d6).
+* Cherry-picked. Allow SC.State's to disallow a state transition (1336a42c27).
+* Cherry-picked. Ensure text field hint line-height gets set correctly (1ec23388ca).
+* Cherry-picked. Remove _recalculateDivider flag from SC.SplitView (8e12bafa14).
+* Cherry-picked. Fix issue with sending statechart events while state transitioning (64ee2ac364).
+* Cherry-picked. Makes invokeNext trigger the next run of the run loop if none is scheduled (250b5feefa).
+* Cherry-picked. Fixes problem with previous invokeNext() change (935c329aa2).
 
 1.9.0
 ----------
