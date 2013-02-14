@@ -657,26 +657,30 @@ SC.ScrollView = SC.View.extend({
   */
   scrollToRect: function(rect) {
     // find current visible frame.
-    var vo = SC.cloneRect(this.get('containerView').get('frame')) ;
+    var vo = SC.cloneRect(this.get('containerView').get('frame')),
+        origX,
+        origY;
 
     vo.x = this.get('horizontalScrollOffset') ;
     vo.y = this.get('verticalScrollOffset') ;
-
-    var origX = vo.x, origY = vo.y;
-
-    // if top edge is not visible, shift origin
-    vo.y -= Math.max(0, SC.minY(vo) - SC.minY(rect)) ;
-    vo.x -= Math.max(0, SC.minX(vo) - SC.minX(rect)) ;
+    origX = vo.x;
+    origY = vo.y;
 
     // if bottom edge is not visible, shift origin
-    vo.y += Math.max(0, SC.maxY(rect) - SC.maxY(vo)) ;
-    vo.x += Math.max(0, SC.maxX(rect) - SC.maxX(vo)) ;
+    vo.y += Math.max(0, SC.maxY(rect) - SC.maxY(vo));
+    vo.x += Math.max(0, SC.maxX(rect) - SC.maxX(vo));
+
+    // if top edge is not visible, shift origin
+    vo.y -= Math.max(0, SC.minY(vo) - SC.minY(rect));
+    vo.x -= Math.max(0, SC.minX(vo) - SC.minX(rect));
 
     // scroll to that origin.
     if ((origX !== vo.x) || (origY !== vo.y)) {
       this.scrollTo(vo.x, vo.y);
       return YES ;
-    } else return NO;
+    } else {
+      return NO;
+    }
   },
 
 
