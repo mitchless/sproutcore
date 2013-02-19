@@ -257,7 +257,7 @@ SC.ChildArray = SC.Object.extend(SC.Enumerable, SC.Array,
   /**
     Invoked whenever the children array changes.  Observes changes.
 
-    @param {SC.Array} keys optional
+    @param {SC.Array} (keys)
     @returns {SC.ChildArray} itself.
   */
   recordPropertyDidChange: function(keys) {
@@ -270,8 +270,8 @@ SC.ChildArray = SC.Object.extend(SC.Enumerable, SC.Array,
     
     will cause the entire array to reset
     
-    @param {SC.Array} keys optional
-    @param {Boolean} doReset optional
+    @param {SC.Array} (keys)
+    @param {Boolean} (doReset)
     @returns {SC.ChildArray} itself.
   */
   _performRecordPropertyChange: function(keys, doReset){

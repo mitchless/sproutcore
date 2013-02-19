@@ -61,9 +61,9 @@ SC._detect_base = function _detect_base(func, parent, name) {
   - prepping a list of bindings, observers, and dependent keys
   - caching local observers so they don't need to be manually constructed.
 
-  @param {Hash} base hash
-  @param {Hash} extension
-  @returns {Hash} base hash
+  @param {Object} base hash
+  @param {Object} extension
+  @returns {Object} base hash
 */
 SC._object_extend = function _object_extend(base, ext, proto) {
   if (!ext) { throw "SC.Object.extend expects a non-null value.  Did you forget to 'sc_require' something?  Or were you passing a Protocol to extend() as if it were a mixin?"; }
@@ -284,7 +284,7 @@ SC.mixin(SC.Object, /** @scope SC.Object */ {
 
     This is a shorthand for calling SC.mixin(MyClass, props...);
 
-    @param {Hash} props the properties you want to add.
+    @param Object} props the properties you want to add.
     @returns {Object} receiver
   */
   mixin: function(props) {
@@ -318,7 +318,7 @@ SC.mixin(SC.Object, /** @scope SC.Object */ {
     do important setup, you must be sure to always call sc_super() somewhere
     in your init() to allow the normal setup to proceed.
 
-    @param {Hash} props the methods of properties you want to add
+    @param {Object} props the methods of properties you want to add
     @returns {Class} A new object class
   */
   extend: function(props) {
@@ -411,7 +411,7 @@ SC.mixin(SC.Object, /** @scope SC.Object */ {
 
     You can pass any hash of properties to this method, including mixins.
 
-    @param {Hash} props
+    @param {Object} props
       optional hash of method or properties to add to the instance.
 
     @returns {SC.Object} new instance of the receiver class.
@@ -499,7 +499,7 @@ SC.mixin(SC.Object, /** @scope SC.Object */ {
     This method works just like extend() except that it will also preserve
     the passed attributes.
 
-    @param {Hash} attrs Attributes to add to view
+    @param {Object} attrs Attributes to add to view
     @returns {Class} SC.Object subclass to create
     @function
   */
@@ -577,7 +577,7 @@ SC.Object.prototype = {
 
           instance.get('foo') => "bar"
 
-    @param {Hash} ext a hash to copy.  Only one.
+    @param {Object} ext a hash to copy.  Only one.
     @returns {Object} receiver
   */
   mixin: function() {

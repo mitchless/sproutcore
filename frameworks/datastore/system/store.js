@@ -130,7 +130,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
         .. edit edit edit
         store.commitChanges().destroy();
 
-    @param {Hash} attrs optional attributes to set on new store
+    @param {Object} attrs optional attributes to set on new store
     @param {Class} newStoreClass optional the class of the newly-created nested store (defaults to SC.NestedStore)
     @returns {SC.NestedStore} new nested store chained to receiver
   */
@@ -304,7 +304,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     longer be reflected in this store until you reset.
 
     @param {Number} storeKey key to retrieve
-    @returns {Hash} data hash or null
+    @returns {Object} data hash or null
   */
   readDataHash: function(storeKey) {
     return this.dataHashes[storeKey];
@@ -319,7 +319,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     `dataHashDidChange()` when you make edits to record the change.
 
     @param {Number} storeKey the store key to retrieve
-    @returns {Hash} the attributes hash
+    @returns {Object} the attributes hash
   */
   readEditableDataHash: function(storeKey) {
     // read the value - if there is no hash just return; nothing to do
@@ -378,7 +378,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     Pass the optional status to edit the status as well.
 
     @param {Number} storeKey the store key to write
-    @param {Hash} hash the new hash
+    @param {Object} hash the new hash
     @param {String} status the new hash status
     @returns {SC.Store} receiver
   */
@@ -463,7 +463,6 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     @param {Number} storeKey the store key
     @param {String} newStatus the new status
-    @param {SC.Error} error optional error object
     @returns {SC.Store} receiver
   */
   writeStatus: function(storeKey, newStatus) {
@@ -480,8 +479,8 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     @param {Number|Array} storeKeys one or more store keys that changed
     @param {Number} rev optional new revision number. normally leave null
-    @param {Boolean} statusOnly (optional) YES if only status changed
-    @param {String} key that changed (optional)
+    @param {Boolean} (statusOnly) YES if only status changed
+    @param {String} (key) that changed
     @returns {SC.Store} receiver
   */
   dataHashDidChange: function(storeKeys, rev, statusOnly, key) {
@@ -1106,8 +1105,8 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     a record to the server, call `commitChanges()` on the store.
 
     @param {SC.Record} recordType the record class to use on creation
-    @param {Hash} dataHash the JSON attributes to assign to the hash.
-    @param {String} id (optional) id to assign to record
+    @param {Object} dataHash the JSON attributes to assign to the hash.
+    @param {String} (id) id to assign to record
 
     @returns {SC.Record} Returns the created record
   */
@@ -1216,7 +1215,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     @param {SC.Record|Array} recordTypes class or array of classes
     @param {Array} dataHashes array of data hashes
-    @param {Array} ids (optional) ids to assign to records
+    @param {Array} (ids) ids to assign to records
     @returns {Array} array of materialized record instances.
   */
   createRecords: function(recordTypes, dataHashes, ids) {
@@ -1240,7 +1239,8 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     @param {SC.Record} recordType the recordType
     @param {String} id the record id
-    @param {Number} storeKey (optional) if passed, ignores recordType and id
+    @param {Number} (storeKey) if passed, ignores recordType and id
+    @param {Number} (newStatus) the new record status to apply
     @returns {SC.Store} receiver
   */
   unloadRecord: function(recordType, id, storeKey, newStatus) {
@@ -1289,8 +1289,9 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     unload records this way.
 
     @param {SC.Record|Array} recordTypes class or array of classes
-    @param {Array} ids (optional) ids to unload
-    @param {Array} storeKeys (optional) store keys to unload
+    @param {Array} (ids) ids to unload
+    @param {Array} (storeKeys) store keys to unload
+    @param {Number} (newStatus) the new record status to apply
     @returns {SC.Store} receiver
   */
   unloadRecords: function(recordTypes, ids, storeKeys, newStatus) {
@@ -1333,7 +1334,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     @param {SC.Record} recordType the recordType
     @param {String} id the record id
-    @param {Number} storeKey (optional) if passed, ignores recordType and id
+    @param {Number} (storeKey) if passed, ignores recordType and id
     @returns {SC.Store} receiver
   */
   destroyRecord: function(recordType, id, storeKey) {
@@ -1404,7 +1405,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     @param {SC.Record|Array} recordTypes class or array of classes
     @param {Array} ids ids to destroy
-    @param {Array} storeKeys (optional) store keys to destroy
+    @param {Array} (storeKeys) store keys to destroy
     @returns {SC.Store} receiver
   */
   destroyRecords: function(recordTypes, ids, storeKeys) {
@@ -1470,7 +1471,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     Record to be removed from the store.
 
     @param {Number} childStoreKey storeKey to unregister
-    @param {Boolean} [isParent] used internally by unloadRecord to unregister all child records
+    @param {Boolean} (isParent) used internally by unloadRecord to unregister all child records
   */
   unregisterChildFromParent: function(childStoreKey, isParent) {
     var crs, oldPk, storeKeys,
@@ -1553,9 +1554,9 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     @param {SC.Record} recordType the recordType
     @param {String} id the record id
-    @param {Number} storeKey (optional) if passed, ignores recordType and id
-    @param {String} key that changed (optional)
-    @param {Boolean} if the change is to statusOnly (optional)
+    @param {Number} (storeKey) if passed, ignores recordType and id
+    @param {String} (key) key that changed
+    @param {Boolean} (statusOnly) if the only change is to the record's status
     @returns {SC.Store} receiver
   */
   recordDidChange: function(recordType, id, storeKey, key, statusOnly) {
@@ -1612,7 +1613,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     @param {SC.Record|Array} recordTypes class or array of classes
     @param {Array} ids ids to destroy
-    @param {Array} storeKeys (optional) store keys to destroy
+    @param {Array} (storeKeys) store keys to destroy
     @returns {SC.Store} receiver
   */
   recordsDidChange: function(recordTypes, ids, storeKeys) {
@@ -1650,7 +1651,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     @param {SC.Record|Array} recordTypes class or array of classes
     @param {Array} ids ids to retrieve
-    @param {Array} storeKeys (optional) store keys to retrieve
+    @param {Array} (storeKeys) store keys to retrieve
     @param {Boolean} isRefresh
     @param {Function|Array} callback function or array of functions
     @returns {Array} storeKeys to be retrieved
@@ -1809,9 +1810,9 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     @param {SC.Record} recordType class
     @param {String} id id to retrieve
-    @param {Number} storeKey (optional) store key
+    @param {Number} (storeKey) store key
     @param {Boolean} isRefresh
-    @param {Function} callback (optional)
+    @param {Function} callback
     @returns {Number} storeKey that was retrieved
   */
   retrieveRecord: function(recordType, id, storeKey, isRefresh, callback) {
@@ -1839,8 +1840,8 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     @param {SC.Record} recordType the expected record type
     @param {String} id to id of the record to load
-    @param {Number} storeKey (optional) optional store key
-    @param {Function} callback (optional) when refresh completes
+    @param {Number} (storeKey) optional store key
+    @param {Function} (callback) when refresh completes
     @returns {Boolean} YES if the retrieval was a success.
   */
   refreshRecord: function(recordType, id, storeKey, callback) {
@@ -1854,8 +1855,8 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     @param {SC.Record|Array} recordTypes class or array of classes
     @param {Array} ids ids to destroy
-    @param {Array} storeKeys (optional) store keys to destroy
-    @param {Function} callback (optional) when refresh completes
+    @param {Array} (storeKeys) store keys to destroy
+    @param {Function} (callback) when refresh completes
     @returns {Boolean} YES if the retrieval was a success.
   */
   refreshRecords: function(recordTypes, ids, storeKeys, callback) {
@@ -1874,9 +1875,9 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     @param {Array} recordTypes the expected record types (SC.Record)
     @param {Array} ids to commit
     @param {SC.Set} storeKeys to commit
-    @param {Hash} params optional additional parameters to pass along to the
+    @param {Object} (params) optional additional parameters to pass along to the
       data source
-    @param {Function|Array} callback function or array of callbacks
+    @param {Function|Array} (callback) function or array of callbacks
 
     @returns {Boolean} if the action was succesful.
   */
@@ -1970,9 +1971,9 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     @param {SC.Record} recordType the expected record type
     @param {String} id the id of the record to commit
     @param {Number} storeKey the storeKey of the record to commit
-    @param {Hash} params optional additional params that will passed down
+    @param {Object} (params) optional additional params that will passed down
       to the data source
-    @param {Function|Array} callback function or array of functions
+    @param {Function|Array} (callback) function or array of functions
     @returns {Boolean} if the action was successful.
   */
   commitRecord: function(recordType, id, storeKey, params, callback) {
@@ -2000,7 +2001,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     @param {SC.Record|Array} recordTypes class or array of classes
     @param {Array} ids ids to destroy
-    @param {Array} storeKeys (optional) store keys to destroy
+    @param {Array} (storeKeys) store keys to destroy
     @returns {SC.Store} the store.
   */
   cancelRecords: function(recordTypes, ids, storeKeys) {
@@ -2045,7 +2046,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     @param {SC.Record|Array} recordTypes class or array of classes
     @param {Array} ids ids to destroy
-    @param {Array} storeKeys (optional) store keys to destroy
+    @param {Array} (storeKeys) store keys to destroy
     @returns {SC.Store} the store.
   */
   cancelRecord: function(recordType, id, storeKey) {
@@ -2088,7 +2089,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     @param {SC.Record} recordType the record type
     @param {Array} dataHash to update
-    @param {Array} id optional.  if not passed lookup on the hash
+    @param {Array} (id) if not passed lookup on the hash
     @returns {String} store keys assigned to these id
   */
   loadRecord: function(recordType, dataHash, id) {
@@ -2134,7 +2135,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     @param {SC.Record} recordTypes the record type or array of record types
     @param {Array} dataHashes array of data hashes to update
-    @param {Array} ids optional array of ids.  if not passed lookup on hashes
+    @param {Array} (ids) optional array of ids.  if not passed lookup on hashes
     @returns {Array} store keys assigned to these ids
   */
   loadRecords: function(recordTypes, dataHashes, ids) {
@@ -2254,8 +2255,8 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     required when you commit a record that does not have an id yet.
 
     @param {Number} storeKey record store key to change to READY_CLEAN state
-    @param {Hash} dataHash optional data hash to replace current hash
-    @param {Object} newId optional new id to replace the old one
+    @param {Object} (dataHash) optional data hash to replace current hash
+    @param {Object} (newId) optional new id to replace the old one
     @returns {SC.Store} receiver
   */
   dataSourceDidComplete: function(storeKey, dataHash, newId) {
@@ -2327,7 +2328,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     Converts the passed record into an error object.
 
     @param {Number} storeKey record store key to error
-    @param {SC.Error} error [optional] an SC.Error instance to associate with storeKey
+    @param {SC.Error} (error) an SC.Error instance to associate with storeKey
     @returns {SC.Store} receiver
   */
   dataSourceDidError: function(storeKey, error) {
@@ -2369,8 +2370,8 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     @param {Class} recordType the SC.Record subclass
     @param {Object} id the record id or null
-    @param {Hash} dataHash data hash to load
-    @param {Number} storeKey optional store key.
+    @param {Object} dataHash data hash to load
+    @param {Number} (storeKey) optional store key.
     @returns {Number|Boolean} storeKey if push was allowed, NO if not
   */
   pushRetrieve: function(recordType, id, dataHash, storeKey) {
@@ -2425,8 +2426,8 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     @param {Class} recordType the SC.Record subclass
     @param {Object} id the record id or null
-    @param {SC.Error} error [optional] an SC.Error instance to associate with id or storeKey
-    @param {Number} storeKey optional store key.
+    @param {SC.Error} (error) an SC.Error instance to associate with id or storeKey
+    @param {Number} (storeKey) optional store key.
     @returns {Number|Boolean} storeKey if push was allowed, NO if not
   */
   pushError: function(recordType, id, error, storeKey) {
@@ -2978,7 +2979,7 @@ SC.Store.find = function(guid, recordType) {
   compatibility.  You should use the newer `findAll()` defined on `SC.Store`
   instead.
 
-  @param {Hash} filter search parameters
+  @param {Object} filter search parameters
   @param {SC.Record} recordType type of record to find
   @returns {SC.RecordArray} result set
 */

@@ -317,7 +317,7 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
     used when computing a query locally.
 
     @param {SC.Record} record the record to check
-    @param {Hash} parameters optional override parameters
+    @param {Object} (parameters) override parameters
     @returns {Boolean} YES if record belongs, NO otherwise
   */
   contains: function(record, parameters) {
@@ -1350,8 +1350,8 @@ SC.Query.mixin( /** @scope SC.Query */ {
 
     @param {String} location the query location.
     @param {SC.Record|Array} recordType the record type or types.
-    @param {String} conditions optional conditions
-    @param {Hash} params optional params. or pass multiple args.
+    @param {String} (conditions) optional conditions
+    @param {Object} (params) optional params. or pass multiple args.
     @returns {SC.Query}
   */
   build: function(location, recordType, conditions, params) {
@@ -1440,8 +1440,8 @@ SC.Query.mixin( /** @scope SC.Query */ {
     the parameters you can pass to this method, see `SC.Query.build()`.
 
     @param {SC.Record|Array} recordType the record type or types.
-    @param {String} conditions optional conditions
-    @param {Hash} params optional params. or pass multiple args.
+    @param {String} (conditions) conditions
+    @param {Object} (params) params. or pass multiple args.
     @returns {SC.Query}
   */
   local: function(recordType, conditions, params) {
@@ -1453,8 +1453,8 @@ SC.Query.mixin( /** @scope SC.Query */ {
     the parameters you can pass to this method, see `SC.Query.build()`.
 
     @param {SC.Record|Array} recordType the record type or types.
-    @param {String} conditions optional conditions
-    @param {Hash} params optional params. or pass multiple args.
+    @param {String} (conditions) conditions
+    @param {Object} (params) params. or pass multiple args.
     @returns {SC.Query}
   */
   remote: function(recordType, conditions, params) {

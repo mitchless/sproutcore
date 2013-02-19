@@ -123,7 +123,7 @@ SC.mixin(Function.prototype,
     conditionally exclude part of it. This helps to keep your code more
     compact and easier to maintain.
 
-    @param {String...} dependentKeys optional set of dependent keys
+    @param {String...} (dependentKeys) optional set of dependent keys
     @returns {Function} the declared function instance
   */
   property: function() {
@@ -141,7 +141,7 @@ SC.mixin(Function.prototype,
     If you do not specify this option, computed properties are assumed to be
     not cacheable.
 
-    @param {Boolean} aFlag optionally indicate cacheable or no, default YES
+    @param {Boolean} (aFlag) optionally indicate cacheable or no, default YES
     @returns {Function} receiver, useful for chaining calls.
   */
   cacheable: function(aFlag) {
@@ -162,7 +162,7 @@ SC.mixin(Function.prototype,
     If you do not specify this option, properties are assumed to be
     non-volatile.
 
-    @param {Boolean} aFlag optionally indicate state, default to YES
+    @param {Boolean} (aFlag) optionally indicate state, default to YES
     @returns {Function} receiver, useful for chaining calls.
   */
   idempotent: function(aFlag) {
