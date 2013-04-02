@@ -558,26 +558,36 @@ SC.Binding = /** @scope SC.Binding.prototype */{
   _computeBindingValue: function() {
     var source = this._bindingSource,
         key    = this._bindingKey,
-        v, idx;
+        v;
 
     this._bindingValue = v = (source ? source.getPath(key) : null);
+    this._transformedBindingValue = this._computeTransformedValue(v);
+  },
 
-    // apply any transforms to get the to property value also
-    var transforms = this._transforms;
+  /** @private
+    Applies transforms to the value and returns the transfomed value.
+    @param {*} value
+    @returns {*}
+  */
+  _computeTransformedValue: function(value) {
+    var transforms = this._transforms,
+        idx,
+        len,
+        transform;
+
     if (transforms) {
-      var len = transforms.length,
-          transform;
-      for(idx=0;idx<len;idx++) {
-        transform = transforms[idx] ;
-        v = transform(v, this) ;
+      len = transforms.length;
+      for (idx = 0; idx < len; idx++) {
+        transform = transforms[idx];
+        value = transform(value, this);
       }
     }
 
     // if error objects are not allowed, and the value is an error, then
     // change it to null.
-    if (this._noError && SC.typeOf(v) === SC.T_ERROR) v = null ;
+    if (this._noError && SC.typeOf(value) === SC.T_ERROR) { value = null; }
 
-    this._transformedBindingValue = v;
+    return value;
   },
 
   _connectQueue: SC.CoreSet.create(),
@@ -682,20 +692,24 @@ SC.Binding = /** @scope SC.Binding.prototype */{
     network of objects that may have already been initialized.
   */
   sync: function() {
+    var target,
+        key,
+        v,
+        tv;
 
     // do nothing if not connected
     if (!this.isConnected) return this;
 
     // connection is pending, just note that we should sync also
     if (this._connectionPending) {
-      this._syncOnConnect = YES ;
+      this._syncOnConnect = YES;
 
     // we are connected, go ahead and sync
     } else {
-      this._computeBindingTargets() ;
-      var target = this._fromTarget,
-          key = this._fromPropertyKey ;
-      if (!target || !key) return this ; // nothing to do
+      this._computeBindingTargets();
+      target = this._fromTarget;
+      key = this._fromPropertyKey;
+      if (!target || !key) return this; // nothing to do
 
       // Let's check for whether target is a valid observable with getPath.
       // Common cases might have it be a Window or a DOM object.
@@ -707,17 +721,18 @@ SC.Binding = /** @scope SC.Binding.prototype */{
       }
 
       // get the new value
-      var v = target.getPath(key) ;
+      v = target.getPath(key);
+      tv = this._computeTransformedValue(v);
 
       // if the new value is different from the current binding value, then
       // schedule to register an update.
-      if (v !== this._bindingValue || key === '[]') {
-        this._setBindingValue(target, key) ;
-        SC.Binding._changeQueue.add(this) ; // save for later.
+      if (v !== this._bindingValue || tv !== this._transformedBindingValue || key === '[]') {
+        this._setBindingValue(target, key);
+        SC.Binding._changeQueue.add(this); // save for later.
       }
     }
 
-    return this ;
+    return this;
   },
 
   // set if you call sync() when the binding connection is still pending.
