@@ -450,7 +450,14 @@ SC.TextFieldView = SC.FieldView.extend(SC.StaticLayout, SC.Editable,
 
       if (element) {
         if (element.setSelectionRange) {
-          element.setSelectionRange(value.get('start'), value.get('end'), value.get('direction')) ;
+          try {
+            element.setSelectionRange(value.get('start'), value.get('end'), value.get('direction')) ;
+          }
+          // In Firefox & IE when you call setSelectionRange on a hidden input it will throw weird
+          // errors. Adding this to just ignore it.
+          catch (e){
+            return null;
+          }
         }
         else {
           // Support Internet Explorer.
