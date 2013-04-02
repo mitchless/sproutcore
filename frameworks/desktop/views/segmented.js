@@ -269,7 +269,7 @@ SC.SegmentedView = SC.View.extend(SC.Control,
     @type String
     @default '&raquo;'
   */
-  overflowTitle: '&raquo;',
+  overflowTitle: '\u00BB',
 
   /**
     The toolTip to use for the overflow segment if it appears.
@@ -277,7 +277,7 @@ SC.SegmentedView = SC.View.extend(SC.Control,
     @type String
     @default 'More&hellip;'
   */
-  overflowToolTip: 'More&hellip;',
+  overflowToolTip: 'More\u2026',
 
   /**
     The icon to use for the overflow segment if it appears.
