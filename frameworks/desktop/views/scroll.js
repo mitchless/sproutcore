@@ -1736,7 +1736,47 @@ SC.ScrollView = SC.View.extend({
 
     childViews.push(this.containerView = this.createChildView(view, {
       contentView: this.contentView,
-      isScrollContainer: YES
+      isScrollContainer: YES,
+
+      didCreateLayer: function() {
+        var layer = this.get('layer');
+        if (layer) {
+          SC.Event.add(layer, 'scroll', this, this._maintainScroll);
+        }
+      },
+
+      willDestroyLayer: function() {
+        var layer = this.get('layer');
+        if (layer) {
+          SC.Event.remove(layer, 'scroll', this, this._maintainScroll);
+        }
+      },
+
+      _maintainScroll: function(evt) {
+        var $this = this.$(),
+            pv = this.get('parentView'),
+            scrollTop = $this.scrollTop() || 0,
+            scrollLeft = $this.scrollLeft() || 0,
+            verticalScrollOffset,
+            horizontalScrollOffset;
+
+        if (pv) {
+          verticalScrollOffset = pv.get('verticalScrollOffset');
+          horizontalScrollOffset = pv.get('horizontalScrollOffset');
+
+          if (scrollTop !== verticalScrollOffset) {
+            // Scroll event was not caused by changing verticalScrollOffset,
+            // update to match.
+            pv.set('verticalScrollOffset', scrollTop);
+          }
+
+          if (scrollLeft !== horizontalScrollOffset) {
+            // Scroll event was not caused by changing horizontalScrollOffset,
+            // update to match.
+            pv.set('horizontalScrollOffset', scrollLeft);
+          }
+        }
+      }
     }));
 
     // and replace our own contentView...
