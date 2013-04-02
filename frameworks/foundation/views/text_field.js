@@ -1327,3 +1327,25 @@ SC.TextFieldView = SC.FieldView.extend(SC.StaticLayout, SC.Editable,
   }.observes('value')
 
 });
+
+(function() {
+  var allowDefault = function(evt) {
+    evt.allowDefault();
+    return YES;
+  };
+  SC.mixin(SC.TextFieldView.prototype, {
+    moveLeft: allowDefault,
+    moveRight: allowDefault,
+    moveUp: allowDefault,
+    moveDown: allowDefault,
+    moveToBeginningOfDocument: allowDefault,
+    moveToEndOfDocument: allowDefault,
+    pageDown: allowDefault,
+    pageUp: allowDefault,
+    moveLeftAndModifySelection: allowDefault,
+    moveRightAndModifySelection: allowDefault,
+    moveUpAndModifySelection: allowDefault,
+    moveDownAndModifySelection: allowDefault,
+    selectAll: allowDefault
+  });
+}());
