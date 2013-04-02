@@ -1293,8 +1293,7 @@ SC.CollectionView = SC.View.extend(SC.CollectionViewDelegate, SC.CollectionConte
   contentIndexForLayerId: function(id) {
     if (!id || !(id = id.toString())) return null ; // nothing to do
 
-    var base = this._baseLayerId;
-    if (!base) base = this._baseLayerId = SC.guidFor(this)+"-";
+    var base = this.get('layerId') + '-';
 
     // no match
     if ((id.length <= base.length) || (id.indexOf(base) !== 0)) return null ;
@@ -1320,12 +1319,10 @@ SC.CollectionView = SC.View.extend(SC.CollectionViewDelegate, SC.CollectionConte
     var responder = this.getPath('pane.rootResponder') ;
     if (!responder) return null ; // fast path
 
-    var base    = SC.guidFor(this) + '-',
-        baseLen = base.length,
-        element = evt.target,
+    var element = evt.target,
         layer   = this.get('layer'),
         contentIndex = null,
-        id, itemView, ret ;
+        id;
 
     // walk up the element hierarchy until we find this or an element with an
     // id matching the base guid (i.e. a collection item)
