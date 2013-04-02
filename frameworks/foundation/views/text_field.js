@@ -482,7 +482,7 @@ SC.TextFieldView = SC.FieldView.extend(SC.StaticLayout, SC.Editable,
   // INTERNAL SUPPORT
   //
 
-  displayProperties: ['isBrowserFocusable','formattedHint', 'fieldValue', 'isEditing', 'isEditable', 'leftAccessoryView', 'rightAccessoryView', 'isTextArea'],
+  displayProperties: ['isBrowserFocusable','formattedHint', 'fieldValue', 'isEditing', 'isEditable', 'leftAccessoryView', 'rightAccessoryView', 'isTextArea', 'maxLength'],
 
   createChildViews: function () {
     sc_super();
@@ -728,6 +728,8 @@ SC.TextFieldView = SC.FieldView.extend(SC.StaticLayout, SC.Editable,
 
       if (hintOnFocus) this.$('.hint')[0].innerHTML = hint;
       else if (!hintOnFocus) elem.placeholder = hint;
+
+      input.attr('maxLength', maxLength);
 
       // IE8 has problems aligning the input text in the center
       // This is a workaround for centering it.
