@@ -219,8 +219,8 @@ SC.SliderView = SC.View.extend(SC.Control,
      // handle tab key
      if (evt.which === 9 || evt.keyCode === 9) {
        var view = evt.shiftKey ? this.get('previousValidKeyView') : this.get('nextValidKeyView');
-       if(view) view.becomeFirstResponder();
-       else evt.allowDefault(); 
+       if(view) view.becomeFirstResponder(evt);
+       else evt.allowDefault();
        return YES ; // handled
      }
      if (evt.which >= 33 && evt.which <= 40){

@@ -2134,14 +2134,14 @@ SC.CollectionView = SC.View.extend(SC.CollectionViewDelegate, SC.CollectionConte
 
   insertTab: function(evt) {
     var view = this.get('nextValidKeyView');
-    if (view) view.becomeFirstResponder();
+    if (view) view.becomeFirstResponder(evt);
     else evt.allowDefault();
     return YES ; // handled
   },
 
   insertBacktab: function(evt) {
     var view = this.get('previousValidKeyView');
-    if (view) view.becomeFirstResponder();
+    if (view) view.becomeFirstResponder(evt);
     else evt.allowDefault();
     return YES ; // handled
   },
@@ -2176,7 +2176,7 @@ SC.CollectionView = SC.View.extend(SC.CollectionViewDelegate, SC.CollectionConte
     if(!this.get('isSelectable')) return NO;
 
     // become first responder if possible.
-    this.becomeFirstResponder() ;
+    this.becomeFirstResponder(ev);
 
     // Toggle the selection if selectOnMouseDown is true
     if (this.get('useToggleSelection')) {
@@ -2400,7 +2400,7 @@ SC.CollectionView = SC.View.extend(SC.CollectionViewDelegate, SC.CollectionConte
     if (!this.get('isEnabled')) return contentIndex > -1;
 
     // become first responder if possible.
-    this.becomeFirstResponder() ;
+    this.becomeFirstResponder(touch);
 
     this._touchSelectedView = itemView;
 

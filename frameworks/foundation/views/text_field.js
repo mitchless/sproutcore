@@ -963,7 +963,7 @@ SC.TextFieldView = SC.FieldView.extend(SC.StaticLayout, SC.Editable,
   },
 
   fieldDidFocus: function (evt) {
-    this.becomeFirstResponder();
+    this.becomeFirstResponder(evt);
 
     this.beginEditing(evt);
 
@@ -1240,7 +1240,7 @@ SC.TextFieldView = SC.FieldView.extend(SC.StaticLayout, SC.Editable,
   mouseDown: function (evt) {
     var fieldValue = this.get('fieldValue'); // use 'fieldValue' since we want actual text
     this._txtFieldMouseDown=YES;
-    this.becomeFirstResponder();
+    this.becomeFirstResponder(evt);
     if (!this.get('isEnabled')) {
       evt.stop();
       return YES;
