@@ -1,7 +1,7 @@
 CHANGE LOG
 ==========
 
-Seapine SproutCore 1.9.0.9 (February 7, 2013)
+Seapine SproutCore 1.9.0.11 (April 2, 2013)
 ----------
 * Cherry-picked. Handlebar escaping issue with ampersands (367e59191a).
 * Cherry-picked. Changed to using 'set()' for cacheable property so internal value is recomputed (c20d17517d).
@@ -102,6 +102,17 @@ Seapine SproutCore 1.9.0.9 (February 7, 2013)
 * Cherry-picked. Fix issue with sending statechart events while state transitioning (64ee2ac364).
 * Cherry-picked. Makes invokeNext trigger the next run of the run loop if none is scheduled (250b5feefa).
 * Cherry-picked. Fixes problem with previous invokeNext() change (935c329aa2).
+* Cherry-picked. Have SC.ScrollView#scrollToRect prefer the top/left of the rect (0d5c36c596).
+* Cherry-picked. Made becomeFirstResponder accept and pass along the event that caused it to be called. This will be passed along to the didBecomeKeyResponderFrom (and friends) callbacks to allow them to determine why focus is changing (e0356d8cd2).
+* Cherry-picked. Use CollectionView's layerId rather than guid in contentIndexForLayerId (efa8c5de4f).
+* Cherry-picked. Handle the scroll event on SC.ScrollView's ContainerView (7dd02b03d1).
+* Cherry-picked. Use Unicode equivalents for HTML entities (5f1960ba2e).
+* Cherry-picked. Add a memoize function to Function (ab10a9247a).
+* Cherry-picked. Apply transforms when checking if binding should be synced (e139f7d155).
+* Cherry-picked. Catch Firefox/IE exception when calling setSelectionRange on hidden input (dbdf14f546).
+* Cherry-picked. Allow default on arrow keys so they are allowed to work normally (b7f2cde713).
+* Cherry-picked. Allow maxLength on SC.TextFieldView to be updated (180ae031bf).
+* Cherry-picked. Fix binding so label on FormView, FormRowView, and the LabelView are all bound together and have the same value.(b3b40dbad4).
 
 1.9.0
 ----------
