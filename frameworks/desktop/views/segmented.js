@@ -613,6 +613,11 @@ SC.SegmentedView = SC.View.extend(SC.Control,
         dimToFit,
         length, i;
 
+    // If child views and cachedDims lengths are out of sync here, it means adjustOverflow
+    // got called in between itemsDidChange and remeasure. Since we know that the remeasure is
+    // scheduled, just return and let the remeasure + adjustOverflow happen later.
+    if (childViews.get('length') !== this.cachedDims.length + 1) { return; }
+
     // This variable is useful to optimize when we are overflowing
     this.isOverflowing = NO;
     overflowView.set('isSelected', NO);
