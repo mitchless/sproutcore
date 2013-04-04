@@ -31,7 +31,7 @@ SC.MenuItemView = SC.View.extend(SC.ContentDisplay,
     @default ['title', 'isEnabled', 'isSeparator', 'isChecked']
     @see SC.View#displayProperties
   */
-  displayProperties: ['title', 'isEnabled', 'isSeparator', 'isChecked'],
+  displayProperties: ['title', 'toolTip', 'isEnabled', 'isSeparator', 'isChecked'],
 
 
   /**
@@ -199,12 +199,14 @@ SC.MenuItemView = SC.View.extend(SC.ContentDisplay,
   */
   render: function(context, firstTime) {
     var content = this.get('content'),
-        key, val,
+        val,
         menu = this.get('parentMenu'),
         itemWidth = this.get('itemWidth') || menu.layout.width,
-        itemHeight = this.get('itemHeight') || SC.DEFAULT_MENU_ITEM_HEIGHT ;
-    this.set('itemWidth',itemWidth);
-    this.set('itemHeight',itemHeight);
+        itemHeight = this.get('itemHeight') || SC.DEFAULT_MENU_ITEM_HEIGHT,
+        escapeHTML = this.get('escapeHTML');
+
+    this.set('itemWidth', itemWidth);
+    this.set('itemHeight', itemHeight);
 
     //addressing accessibility
     if (this.get('isSeparator')) {
@@ -231,6 +233,13 @@ SC.MenuItemView = SC.View.extend(SC.ContentDisplay,
       val = this.get('title');
       if (SC.typeOf(val) !== SC.T_STRING) val = val.toString();
       this.renderLabel(context, val);
+
+      val = this.get('toolTip');
+      if (SC.typeOf(val) !== SC.T_STRING) val = val.toString();
+      if (escapeHTML) {
+        val = SC.RenderContext.escapeHTML(val);
+      }
+      context.attr('title', val);
 
       if (this.get('isChecked')) {
         context.push('<div class="checkbox"></div>');
@@ -338,8 +347,24 @@ SC.MenuItemView = SC.View.extend(SC.ContentDisplay,
 
     if (localize && ret) ret = SC.String.loc(ret);
 
-    return ret||'';
+    return ret || '';
   }.property('content.title').cacheable(),
+
+  /**
+    The tooltip from the content property.
+
+    @field
+    @type String
+    @observes content.title
+  */
+  toolTip: function() {
+    var ret = this.getContentProperty('itemToolTipKey'),
+        localize = this.getPath('parentMenu.localize');
+
+    if (localize && ret) ret = SC.String.loc(ret);
+
+    return ret || '';
+  }.property('content.toolTip').cacheable(),
 
   /** @private */
   getContentProperty: function(property) {
