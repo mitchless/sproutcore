@@ -871,7 +871,10 @@ SC.MenuPane = SC.PickerPane.extend(
   },
 
   _sc_menu_itemsDidChange: function() {
-    var views = this.get('menuItemViews');
+    var oldViews = SC.clone(this._menuView.get('childViews')),
+        views;
+    if (oldViews) { oldViews.invoke('destroy'); }
+    views = this.get('menuItemViews');
     this._menuView.replaceAllChildren(views);
     this._menuView.adjust('height', this.get('menuHeight'));
   }.observes('items'),
