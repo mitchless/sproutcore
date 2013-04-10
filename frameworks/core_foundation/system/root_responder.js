@@ -1973,7 +1973,7 @@ SC.RootResponder = SC.Object.extend(
          for (loc=0, len=lh.length; loc < len; loc++) {
            view = lh[loc] ;
            exited = view.respondsTo('mouseExited');
-           if (exited && nh.indexOf(view) === -1) {
+           if (exited && !view.isDestroyed && nh.indexOf(view) === -1) {
              view.tryToPerform('mouseExited', evt);
            }
          }
