@@ -1917,8 +1917,12 @@ SC.CollectionView = SC.View.extend(SC.CollectionViewDelegate, SC.CollectionConte
   */
   selectAll: function(evt) {
     var content = this.get('content'),
-        sel = content ? SC.IndexSet.create(0, content.get('length')) : null;
-    this.select(sel, NO) ;
+        sel;
+
+    if (content && content.get('allowsMultipleSelection')) {
+      sel = SC.IndexSet.create(0, content.get('length'));
+      this.select(sel, NO) ;
+    }
     return YES ;
   },
 
@@ -2056,15 +2060,19 @@ SC.CollectionView = SC.View.extend(SC.CollectionViewDelegate, SC.CollectionConte
 
   /** @private */
   moveDownAndModifySelection: function(sender, evt) {
-    this.selectNextItem(true, this.get('itemsPerRow') || 1) ;
-    this._cv_performSelectAction(null, evt, this.ACTION_DELAY);
+    if (this.getPath('content.allowsMultipleSelection')) {
+      this.selectNextItem(true, this.get('itemsPerRow') || 1) ;
+      this._cv_performSelectAction(null, evt, this.ACTION_DELAY);
+    }
     return true ;
   },
 
   /** @private */
   moveUpAndModifySelection: function(sender, evt) {
-    this.selectPreviousItem(true, this.get('itemsPerRow') || 1) ;
-    this._cv_performSelectAction(null, evt, this.ACTION_DELAY);
+    if (this.getPath('content.allowsMultipleSelection')) {
+      this.selectPreviousItem(true, this.get('itemsPerRow') || 1) ;
+      this._cv_performSelectAction(null, evt, this.ACTION_DELAY);
+    }
     return true ;
   },
 
