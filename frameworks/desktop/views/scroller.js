@@ -208,9 +208,9 @@ SC.ScrollerView = SC.View.extend(
     The width or height of the cap that encloses the track.
 
     @type Number
-    @default 18
+    @default 16
   */
-  capLength: 18,
+  capLength: 16,
 
   /**
     The amount by which the thumb overlaps the cap.
@@ -236,9 +236,9 @@ SC.ScrollerView = SC.View.extend(
     the end cap.
 
     @type Number
-    @default 11
+    @default 9
   */
-  buttonOverlap: 11,
+  buttonOverlap: 9,
 
   /**
     The minimium length that the thumb will be, regardless of how much content
