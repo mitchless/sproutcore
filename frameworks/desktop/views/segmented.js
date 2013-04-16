@@ -388,7 +388,7 @@ SC.SegmentedView = SC.View.extend(SC.Control,
         previousItem,
         childViews = this.get('childViews'),
         childView,
-        overflowView = childViews.lastObject(),
+        overflowView = this.get('overflowView'),
         value = this.get('value'),        // The value can change if items that were once selected are removed
         isSelected,
         itemKeys = this.get('itemKeys'),
@@ -582,7 +582,7 @@ SC.SegmentedView = SC.View.extend(SC.Control,
 
     if (this.get('isVisibleInWindow')) {
       // Make all the views visible so that they can be measured
-      overflowView = childViews.lastObject();
+      overflowView = this.get('overflowView');
       overflowView.set('isVisible', YES);
 
       for (var i = childViews.get('length') - 1; i >= 0; i--){
@@ -606,7 +606,7 @@ SC.SegmentedView = SC.View.extend(SC.Control,
     var childViews = this.get('childViews'),
         childView,
         value = this.get('value'),
-        overflowView = childViews.lastObject(),
+        overflowView = this.get('overflowView'),
         isHorizontal = this.get('layoutDirection') === SC.LAYOUT_HORIZONTAL,
         visibleDim = isHorizontal ? this.$().width() : this.$().height(),  // The inner width/height of the div
         curElementsDim = 0,
@@ -1243,7 +1243,7 @@ SC.SegmentedView = SC.View.extend(SC.Control,
         overflowItemsLength,
         childViews = this.get('childViews'),
         overflowIndex = Infinity,
-        overflowView = childViews.lastObject(),
+        overflowView = this.get('overflowView'),
         childView,
         isSelected;
 
