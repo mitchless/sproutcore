@@ -1,7 +1,7 @@
 CHANGE LOG
 ==========
 
-Seapine SproutCore 1.9.0.11 (April 2, 2013)
+Seapine SproutCore 1.9.0.12 (April 17, 2013)
 ----------
 * Cherry-picked. Handlebar escaping issue with ampersands (367e59191a).
 * Cherry-picked. Changed to using 'set()' for cacheable property so internal value is recomputed (c20d17517d).
@@ -113,6 +113,17 @@ Seapine SproutCore 1.9.0.11 (April 2, 2013)
 * Cherry-picked. Allow default on arrow keys so they are allowed to work normally (b7f2cde713).
 * Cherry-picked. Allow maxLength on SC.TextFieldView to be updated (180ae031bf).
 * Cherry-picked. Fix binding so label on FormView, FormRowView, and the LabelView are all bound together and have the same value.(b3b40dbad4).
+* Cherry-picked. Fix SC.SegmentedView crash (3d38f638b6).
+* Cherry-picked. Add toolTip to SC.MenuPane items (17b2780d46).
+* Cherry-picked. Address some code review comments in memoize (1d76cd4bff).
+* Cherry-picked. Fix issue with custom layerIds on SC.MenuPane items (744ceeb081).
+* Cherry-picked. Clean up SC.MenuItemView properties (3c4a9fefa3).
+* Cherry-picked. Fix crash on mousemove (9a98ffddaa).
+* Cherry-picked. Honor allowsMultipleSelection in SC.CollectionView (21da5c5633).
+* Cherry-picked. Fix crash in interpretKeyEvents (8d80e1041f).
+* Cherry-picked. Fix SC.ScrollerView cap sizes (6525671ff0).
+* Cherry-picked. Fix crash in SC.SegmentedView (bbb7395728).
+* Cherry-picked. Memory leak fixes (f15ed67a9a).
 
 1.9.0
 ----------
