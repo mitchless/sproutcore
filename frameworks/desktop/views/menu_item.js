@@ -231,6 +231,8 @@ SC.MenuItemView = SC.View.extend(SC.ContentDisplay,
    */
   destroy: function() {
     this._cleanupPreviousSubMenu();
+    this.set('parentMenu', null);
+    this.set('content', null);
     return sc_super();
   },
 
@@ -549,7 +551,7 @@ SC.MenuItemView = SC.View.extend(SC.ContentDisplay,
     } else {
       parentMenu = this.get('parentMenu');
 
-      if (parentMenu.get('currentMenuItem') === this) {
+      if (parentMenu && parentMenu.get('currentMenuItem') === this) {
         parentMenu.set('currentMenuItem', null);
       }
     }
