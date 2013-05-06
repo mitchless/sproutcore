@@ -1279,7 +1279,7 @@ SC.CollectionView = SC.View.extend(SC.CollectionViewDelegate, SC.CollectionConte
   */
   layerIdFor: function(idx) {
     var ret = this._TMP_LAYERID;
-    ret[0] = SC.guidFor(this);
+    ret[0] = this.get('layerId');
     ret[1] = idx;
     return ret.join('-');
   },
