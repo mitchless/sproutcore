@@ -1,7 +1,7 @@
 CHANGE LOG
 ==========
 
-Seapine SproutCore 1.9.0.12 (April 17, 2013)
+Seapine SproutCore 1.9.0.13 (May 23, 2013)
 ----------
 * Cherry-picked. Handlebar escaping issue with ampersands (367e59191a).
 * Cherry-picked. Changed to using 'set()' for cacheable property so internal value is recomputed (c20d17517d).
@@ -124,6 +124,13 @@ Seapine SproutCore 1.9.0.12 (April 17, 2013)
 * Cherry-picked. Fix SC.ScrollerView cap sizes (6525671ff0).
 * Cherry-picked. Fix crash in SC.SegmentedView (bbb7395728).
 * Cherry-picked. Memory leak fixes (f15ed67a9a).
+* Cherry-picked. Change to oneWay bindings for form labels (1c6a3a71f5).
+* Cherry-picked. Use CollectionView's layerId rather than guid in contentIndexForLayerId (1ce9bf6b4c).
+* Cherry-picked. Performance improvements to tupleForPropertyPath (ed8c47725c).
+* Cherry-picked. Performance improvements to _notifyPropertyObservers (915d5bfb7e).
+* Cherry-picked. Performance improvements to SC.Observers.flush (e8b5063bef).
+* Cherry-picked. Notify the text field selection changed in the next run loop (4e47dc2bd6).
+* Cherry-picked. Fix issue with SC.SegementedView overflow item layer ids (976a0d6406).
 
 1.9.0
 ----------
