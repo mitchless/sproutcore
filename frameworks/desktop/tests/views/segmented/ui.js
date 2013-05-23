@@ -13,7 +13,6 @@ var pane;
   var iconURL= "http://www.freeiconsweb.com/Icons/16x16_people_icons/People_046.gif";
 
   pane = SC.ControlTestPane.design()
-
     .add("3_empty", SC.SegmentedView, {
       items: [ '', '' , ''],
       layout: { height: 25 }
@@ -163,6 +162,20 @@ var pane;
       itemTitleKey: 'value',
       itemValueKey: 'value',
       itemWidthKey: 'width',
+      value: "E",
+      layout: { height: 25 }
+    })
+    .add("5_items,layerIds,overflow", SC.SegmentedView, {
+      items: [
+        { value: "A", width: 70, layerId: 'segment-a' },
+        { value: "B", width: 70, layerId: 'segment-b' },
+        { value: "C", width: 70, layerId: 'segment-c' },
+        { value: "D", width: 70, layerId: 'segment-d' },
+        { value: "E", width: 70, layerId: 'segment-e' }],
+      itemTitleKey: 'value',
+      itemValueKey: 'value',
+      itemWidthKey: 'width',
+      itemLayerIdKey: 'layerId',
       value: "E",
       layout: { height: 25 }
     })
@@ -438,6 +451,41 @@ var pane;
     // the overflow item should be selected (because an overflowed item is selected)
     var overflowEl = segments[segments.length - 1];
     ok($(overflowEl).hasClass('sel'), 'overflow segment should have .sel class');
+  });
+
+  test("Check that the overflow menu does not consume hidden buttons when the menu pane shows because of matching layer ids", function() {
+    var sv = pane.view("5_items,layerIds,overflow");
+    var segments = sv.$('.sc-segment-view');
+
+    // Menu pane needs us to have the current window size ready, ask the responder to prepare itself
+    // Without this line, the menu pane will crash the test when positioning itself
+    SC.RootResponder.responder.resize();
+
+    // Check that we have six segments, five items and one overflow
+    var numberOfSegments = segments.size();
+    equals(numberOfSegments, 6, 'We should start with 6 segment child divs in the segment view');
+
+    sv.showOverflowMenu();
+
+    // the overflow menu should be showing
+    var menu = SC.$('.sc-menu').view();
+    if (menu.length) {
+      menu = menu[0];
+    } else {
+      menu = null;
+    }
+    ok(menu && menu.get('isVisible'), 'overflow menu should be visible');
+
+    // We need the run loop to end so that we go through cleaning up views at the end of the run loop,
+    // this is where the bug I was seeing occurs. (one of my buttons gets destroyed by the menu pane)
+    SC.run(function() {
+      menu.remove();
+    });
+
+    // check that no elements have been consumed
+    segments = sv.$('.sc-segment-view');
+    numberOfSegments = segments.size();
+    equals(numberOfSegments, 6, 'We should end with 6 segment child divs in the segment view');
   });
 
   test("Check that the segmented view and segments have aria roles set", function() {
