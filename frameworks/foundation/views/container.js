@@ -70,11 +70,17 @@ SC.ContainerView = SC.View.extend(
   /** @private */
   createChildViews: function() {
     // if contentView is defined, then create the content
-    var view = this.get('contentView') ;
+    var view = this.get('contentView');
+
+    this.beginPropertyChanges();
+
     if (view) {
-      view = this.contentView = this.createChildView(view) ;
-      this.childViews = [view] ;
-    } 
+      view = this.createChildView(view);
+      this.set('contentView', view);
+      this.set('childViews', [view]);
+    }
+
+    this.endPropertyChanges();
   },
   
   /**
