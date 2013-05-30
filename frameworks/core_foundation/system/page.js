@@ -33,6 +33,8 @@ SC.Page = SC.Object.extend(
   */
   owner: null,
 
+  isResetable: false,
+
   /**
    * When you create a pane, let's retain the class so that we can reset it later
    */
@@ -41,9 +43,11 @@ SC.Page = SC.Object.extend(
   get: function(key) {
     var value = this[key] ;
     if (value && value.isClass) {
-      if (!this._scp_classes) { this._scp_classes = []; }
-      // keep a copy of the class around so we can destroy the page later
-      this._scp_classes[key] = value;
+      if (this.get('isResetable')) {
+        if (!this._scp_classes) { this._scp_classes = []; }
+        // keep a copy of the class around so we can destroy the page later
+        this._scp_classes[key] = value;
+      }
       this[key] = value = value.create({ page: this }) ;
       if (!this.get('inDesignMode')) value.awake() ;
       return value ;
@@ -55,10 +59,11 @@ SC.Page = SC.Object.extend(
    * @param {String} key object on page to restore to its original class
    */
   reset: function(key) {
-    var clazz = this._scp_classes[key];
-    if (clazz) {
+    var clazz;
+    if (this.get('isResetable')) {
+      clazz = this._scp_classes[key];
       // currently assuming this has been removed from view
-      this[key] = clazz;
+      if (clazz) { this[key] = clazz; }
     }
   },
   
