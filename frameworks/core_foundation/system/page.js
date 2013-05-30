@@ -32,14 +32,34 @@ SC.Page = SC.Object.extend(
     Usually, you'll set 'owner' to the object defined in core.js.
   */
   owner: null,
+
+  /**
+   * When you create a pane, let's retain the class so that we can reset it later
+   */
+  _scp_classes: null,
   
   get: function(key) {
     var value = this[key] ;
     if (value && value.isClass) {
+      if (!this._scp_classes) { this._scp_classes = []; }
+      // keep a copy of the class around so we can destroy the page later
+      this._scp_classes[key] = value;
       this[key] = value = value.create({ page: this }) ;
       if (!this.get('inDesignMode')) value.awake() ;
       return value ;
     } else return sc_super();
+  },
+
+  /**
+   * Restore an object to its uncreated state
+   * @param {String} key object on page to restore to its original class
+   */
+  reset: function(key) {
+    var clazz = this._scp_classes[key];
+    if (clazz) {
+      // currently assuming this has been removed from view
+      this[key] = clazz;
+    }
   },
   
   /**
