@@ -33,7 +33,14 @@ SC.Page = SC.Object.extend(
   */
   owner: null,
 
-  isResetable: false,
+  /**
+   * Whether SC.Page should retain a copy of the original class of a lazily configured view.
+   *
+   * @type Boolean
+   * @default false
+   * @see SC.Page.reset
+   */
+  isResettable: false,
 
   /**
    * When you create a pane, let's retain the class so that we can reset it later
@@ -43,7 +50,7 @@ SC.Page = SC.Object.extend(
   get: function(key) {
     var value = this[key] ;
     if (value && value.isClass) {
-      if (this.get('isResetable')) {
+      if (this.get('isResettable')) {
         if (!this._scp_classes) { this._scp_classes = []; }
         // keep a copy of the class around so we can destroy the page later
         this._scp_classes[key] = value;
@@ -55,12 +62,15 @@ SC.Page = SC.Object.extend(
   },
 
   /**
-   * Restore an object to its uncreated state
+   * If this SC.Page allows properties to be reset, restore a lazily configured view to its original
+   * uncreated state. If isResettable is false, this function does nothing.
+   *
    * @param {String} key object on page to restore to its original class
+   * @see SC.Page.isResettable
    */
   reset: function(key) {
     var clazz;
-    if (this.get('isResetable')) {
+    if (this.get('isResettable')) {
       clazz = this._scp_classes[key];
       // currently assuming this has been removed from view
       if (clazz) { this[key] = clazz; }
