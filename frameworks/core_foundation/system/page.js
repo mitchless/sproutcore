@@ -73,7 +73,10 @@ SC.Page = SC.Object.extend(
     if (this.get('isResettable')) {
       clazz = this._scp_classes[key];
       // currently assuming this has been removed from view
-      if (clazz) { this[key] = clazz; }
+      if (clazz) {
+        this[key].destroy();
+        this[key] = clazz;
+      }
     }
   },
   
